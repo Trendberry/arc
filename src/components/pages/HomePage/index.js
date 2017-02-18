@@ -1,12 +1,10 @@
 import React from 'react'
 
-import { PageTemplate, Header, Hero, Footer, FeatureList } from 'components'
+// import { PageTemplate } from 'containers'
 
 const HomePage = () => {
   return (
-    <PageTemplate header={<Header />} hero={<Hero />} footer={<Footer />}>
-      <FeatureList />
-    </PageTemplate>
+    <div>Hello World</div>
   )
 }
 

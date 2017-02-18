@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react'
 import serialize from 'serialize-javascript'
-import styleSheet from 'styled-components/lib/models/StyleSheet'
 import csrf from 'csurf'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import { Provider } from 'react-redux'
@@ -15,9 +14,26 @@ import { env, port, ip, basename } from 'config'
 import { setCsrfToken } from 'store/actions'
 import Html from 'components/Html'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import createPalette from 'material-ui/styles/palette';
+import createMuiTheme from 'material-ui/styles/theme';
+import { blue, pink } from 'material-ui/styles/colors';
+
 const router = new Router()
 
 router.use(csrf({ cookie: true }))
+
+const createStyleManager = () => (
+  MuiThemeProvider.createDefaultContext({
+    theme: createMuiTheme({
+      palette: createPalette({
+        primary: blue,
+        accent: pink,
+        type: 'light',
+      }),
+    }),
+  })
+)
 
 router.use((req, res, next) => {
   if (env === 'development') {
@@ -61,13 +77,19 @@ router.use((req, res, next) => {
     })
 
     const render = (store) => {
+
+      // Create a styleManager instance.
+      const { styleManager, theme } = createStyleManager()
+
       const content = renderToString(
         <Provider store={store}>
-          <RouterContext {...renderProps} />
+          <MuiThemeProvider styleManager={styleManager} theme={theme}>
+            <RouterContext {...renderProps} />
+          </MuiThemeProvider>
         </Provider>
       )
 
-      const styles = styleSheet.rules().map(rule => rule.cssText).join('\n')
+      const styles = styleManager.sheetsToString() //.replace(/[\n|\s]+/g, ' ') //styleSheet.rules().map(rule => rule.cssText).join('\n')
       const initialState = store.getState()
       const assets = global.webpackIsomorphicTools.assets()
       const state = `window.__INITIAL_STATE__ = ${serialize(initialState)}`

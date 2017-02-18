@@ -3,11 +3,11 @@ import { mount, shallow } from 'enzyme'
 import PageTemplate from '.'
 
 const wrap = (props = {}) => shallow(
-  <PageTemplate header="header" footer="footer" {...props}>test</PageTemplate>
+  <PageTemplate {...props}>test</PageTemplate>
 )
 
 it('mounts', () => {
-  mount(<PageTemplate header="header" footer="footer">test</PageTemplate>)
+  mount(<PageTemplate>test</PageTemplate>)
 })
 
 it('renders children when passed in', () => {

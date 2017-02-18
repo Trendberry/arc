@@ -8,6 +8,11 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { basename } from 'config'
 import configureStore from 'store/configure'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import createPalette from 'material-ui/styles/palette';
+import createMuiTheme from 'material-ui/styles/theme';
+import { blue, pink } from 'material-ui/styles/colors';
+
 import routes from 'routes'
 
 // eslint-disable-next-line no-underscore-dangle
@@ -17,10 +22,27 @@ const store = configureStore(initialState, baseHistory)
 const history = syncHistoryWithStore(baseHistory, store)
 const root = document.getElementById('app')
 
+const createStyleManager = () => (
+  MuiThemeProvider.createDefaultContext({
+    theme: createMuiTheme({
+      palette: createPalette({
+        primary: blue,
+        accent: pink,
+        type: 'light',
+      }),
+    }),
+  })
+)
+
+// Create a styleManager instance.
+const { styleManager, theme } = createStyleManager();
+
 const renderApp = () => (
   <AppContainer>
     <Provider store={store}>
-      <Router history={history} routes={routes} />
+      <MuiThemeProvider styleManager={styleManager} theme={theme}>
+        <Router history={history} routes={routes} />
+      </MuiThemeProvider>
     </Provider>
   </AppContainer>
 )

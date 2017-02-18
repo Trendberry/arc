@@ -7,8 +7,10 @@ import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/menu';
 import LightbulbOutlineIcon from 'material-ui/svg-icons/lightbulb-outline';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import { AppDrawer, AppContent } from 'components'
+import { CircularProgress } from 'material-ui/Progress';
 
 const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
   return {
@@ -28,6 +30,7 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
         overflowX: 'hidden',
         WebkitFontSmoothing: 'antialiased', // Antialiasing.
         MozOsxFontSmoothing: 'grayscale', // Antialiasing.
+        overflowY: 'scroll'
       },
       a: {
         color: theme.palette.accent.A400,
@@ -41,6 +44,45 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
         height: 'auto',
         width: 'auto',
       },
+
+      '.example-enter': {
+        height: 0,
+        opacity: 0,
+        transition: 'all .275s .275s cubic-bezier(0.0, 0.0, 0.2, 1)',
+        transform: 'translateY(100px)',
+      },
+      '.example-enter.example-enter-active': {
+        opacity: 1,
+        transform: 'translateY(0)',
+      },
+      '.example-leave': {
+        height: 0,
+        opacity: 1,
+        transition: 'all .275s cubic-bezier(0.4, 0.0, 0.2, 1)',
+        transform: 'translateY(0)',
+      },
+      '.example-leave.example-leave-active': {
+        opacity: 0,
+        transform: 'translateY(100px)',
+      },
+
+      // '.example2-enter': {
+      //   opacity: 0.01,
+      //   transition: 'all .275s cubic-bezier(0.0, 0.0, 0.2, 1)',
+      //   transform: 'translateY(100px)',
+      // },
+      // '.example2-enter.example2-enter-active': {
+      //   opacity: 1,
+      //   transform: 'translateY(0)',
+      // },
+      // '.example2-leave': {
+      //   transition: 'translateY .275s cubic-bezier(0.4, 0.0, 0.2, 1)',
+      //   transform: 'translateY(0)',
+      // },
+      // '.example2-leave.example2-leave-active': {
+      //   transform: 'translateY(-100px)',
+      // },
+
     },
     PageTemplateContainer: {
       display: 'flex',
@@ -84,7 +126,7 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
   };
 });
 
-const PageTemplate = (props, context) =>  {
+const AdminPageTemplate = (props, context) =>  {
   const {
     handleDrawerToggle,
     handleToggleShade,
@@ -92,7 +134,11 @@ const PageTemplate = (props, context) =>  {
     children,
     drawerDocked,
     drawerOpen,
+    location,
+    loading
   } = props
+
+  console.log(loading)
 
   const classes = context.styleManager.render(styleSheet);
   const title = ''
@@ -133,15 +179,26 @@ const PageTemplate = (props, context) =>  {
         open={drawerOpen}
       />
       <AppContent>
-        {children}
+        <ReactCSSTransitionGroup
+          component="div"
+          transitionName="example"
+          transitionEnterTimeout={550}
+          transitionLeaveTimeout={275}
+        >
+          {/*<div key={location.pathname}>{children}</div>*/}
+          {/*{loading ? <CircularProgress /> : <div key={location.pathname}>{children}</div>}*/}
+          {React.cloneElement(children, {
+            key: location.pathname
+          })}
+          </ReactCSSTransitionGroup>
       </AppContent>
     </div>
   )
 }
 
-PageTemplate.contextTypes = {
+AdminPageTemplate.contextTypes = {
   theme: customPropTypes.muiRequired,
   styleManager: customPropTypes.muiRequired,
 }
 
-export default PageTemplate
+export default AdminPageTemplate
