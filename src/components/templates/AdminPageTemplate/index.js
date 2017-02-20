@@ -138,8 +138,6 @@ const AdminPageTemplate = (props, context) =>  {
     loading
   } = props
 
-  console.log(loading)
-
   const classes = context.styleManager.render(styleSheet);
   const title = ''
 

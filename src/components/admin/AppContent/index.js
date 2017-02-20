@@ -6,6 +6,7 @@ import customPropTypes from 'material-ui/utils/customPropTypes';
 export const styleSheet = createStyleSheet('AppContent', (theme) => {
   return {
     content: theme.mixins.gutters({
+      paddingBottom: 24,
       paddingTop: 80,
       flex: '1 1 100%',
       maxWidth: '100%',

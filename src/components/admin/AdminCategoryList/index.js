@@ -17,6 +17,7 @@ import Paper from 'material-ui/Paper'
 import SvgIcon from 'material-ui/SvgIcon'
 import { CircularProgress } from 'material-ui/Progress'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Checkbox from 'material-ui/Checkbox'
 
 const IconAdd = (props) => (
   <SvgIcon {...props}>
@@ -72,6 +73,7 @@ EnhancedTableToolbar.contextTypes = {
 
 
 const AdminCategoryList = ({ list, loading, ...props }) => {
+
   return (
     /*<ReactCSSTransitionGroup
         component="div"
@@ -86,15 +88,24 @@ const AdminCategoryList = ({ list, loading, ...props }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
+                <TableCell style={{ width: '1%' }} checkbox>
+                  <Checkbox />
+                </TableCell>
+                <TableCell padding={false}>Name</TableCell>
                 <TableCell style={{ width: '1%' }}>Created</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {list.map((category) => {
                 return (
-                  <TableRow key={category._id}>
-                    <TableCell>
+                  <TableRow
+                    key={category._id}
+                    hover
+                  >
+                    <TableCell checkbox>
+                      <Checkbox />
+                    </TableCell>
+                    <TableCell padding={false}>
                       <Link to={`/admin/categories/${category._id}/update`}>{category.name}</Link>
                     </TableCell>
                     <TableCell>{category.created}</TableCell>

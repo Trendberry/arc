@@ -1,13 +1,14 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 
-import { AdminCategoryList } from 'containers'
+import { DataTable } from 'containers'
 
 const AdminCategoryListPage = () => {
   return (
     <div>
       <Helmet title="Posts Page" />
-      <AdminCategoryList limit={15} />
+      {/*<AdminCategoryList limit={15} />*/}
+      <DataTable />
     </div>
   )
 }

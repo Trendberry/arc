@@ -47,8 +47,6 @@ class AdminPageTemplateContainer extends Component {
       loading
     } = this.props;
 
-    // console.log(location)
-
     // let drawerDocked = isWidthUp('lg', width);
     let drawerDocked = true;
 

@@ -187,14 +187,20 @@ class AdminEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    const blocksFromHTML = convertFromHTML(props.content);
-    const state = ContentState.createFromBlockArray(
-      blocksFromHTML.contentBlocks,
-      blocksFromHTML.entityMap,
-    )
+    if (props.content) {
+      const blocksFromHTML = convertFromHTML(props.content);
+      const state = ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap,
+      )
 
-    this.state = {
-      editorState: !props.content ? EditorState.createEmpty() : EditorState.createWithContent(state)
+      this.state = {
+        editorState: EditorState.createWithContent(state)
+      }
+    } else {
+      this.state = {
+        editorState: EditorState.createEmpty()
+      }
     }
 
     this.focus = () => this.refs.editor.focus();

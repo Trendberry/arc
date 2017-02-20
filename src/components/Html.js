@@ -22,6 +22,12 @@ const Html = ({ styles, assets, state, content }) => {
         {Object.keys(assets.javascript).map((key) =>
           <script key={key} src={assets.javascript[key]} />
         )}
+        <script defer dangerouslySetInnerHTML={{ __html: `
+          var jssStyles = document.getElementById('jss-server-side');
+          if (jssStyles && jssStyles.parentNode) {
+            jssStyles.parentNode.removeChild(jssStyles);
+          }
+        `}} />
       </body>
     </html>
   )
