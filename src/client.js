@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { AppContainer } from 'react-hot-loader'
 import { createHistory } from 'history'
-import { Router, useRouterHistory } from 'react-router'
+import { Router, useRouterHistory, match } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { basename } from 'config'
 import configureStore from 'store/configure'
@@ -13,7 +13,7 @@ import createPalette from 'material-ui/styles/palette'
 import createMuiTheme from 'material-ui/styles/theme'
 import { blue, pink } from 'material-ui/styles/colors'
 
-import getRoutes from 'routes'
+import routes from 'routes'
 
 const { pathname, search, hash } = window.location
 const location = `${pathname}${search}${hash}`
@@ -37,33 +37,34 @@ const createStyleManager = () => (
   })
 )
 
-const routes = getRoutes(store)
-
 // Create a styleManager instance.
 const { styleManager, theme } = createStyleManager();
 
-const renderApp = (renderProps) => (
-  <AppContainer>
-    <MuiThemeProvider styleManager={styleManager} theme={theme}>
-      <Provider store={store}>
-        <Router {...renderProps} />
-      </Provider>
-    </MuiThemeProvider>
-  </AppContainer>
-)
+const renderApp = () => {
+  match({ history, routes: routes(store), location }, (error, redirectLocation, renderProps) => {
 
-match({ history, routes, location }, (error, redirectLocation, renderProps) => {
+    console.log('-------------------client-------------------')
+    console.log(location)
+    console.log(renderProps.location)
+    console.log('-------------------client-------------------')
 
-console.log('-------------------client-------------------')
-console.log(location)
-console.log(renderProps.location)
-console.log('-------------------client-------------------')
-  render(renderApp(renderProps), root)
-})
+    render(
+      <AppContainer>
+        <MuiThemeProvider styleManager={styleManager} theme={theme}>
+          <Provider store={store}>
+            <Router key={Math.random()} {...renderProps} />
+          </Provider>
+        </MuiThemeProvider>
+      </AppContainer>,
+      root,
+    )
+  })
+}
 
 if (module.hot) {
   module.hot.accept('routes', () => {
-    require('routes')
-    render(renderApp(), root)
+      renderApp()
   })
 }
+
+renderApp()

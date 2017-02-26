@@ -49,7 +49,7 @@ const getRoutes = (store) => {
         <IndexRoute component={HomePage} />
 
         <Route path="categories">
-          <IndexRoute component={AdminCategoryListPage} />
+          <IndexRoute component={AdminCategoryListPage} onEnter={fetchData} />
           <Route path="create" component={AdminCategoryCreatePage} />
           <Route path=":id/update" component={AdminCategoryUpdatePage} />
         </Route>
