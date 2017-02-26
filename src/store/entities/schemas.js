@@ -9,5 +9,5 @@ export const actionsMeta = {
   [CATEGORY_LIST_SUCCESS]: { property: 'list', schema: [category] },
   [CATEGORY_CREATE_SUCCESS]: { property: 'data', schema: category },
   [CATEGORY_READ_SUCCESS]: { property: 'data', schema: category },
-  [CATEGORY_UPDATE_SUCCESS]: { property: 'newData', schema: category }
+  [CATEGORY_UPDATE_SUCCESS]: { property: 'newData', schema: category },
 }

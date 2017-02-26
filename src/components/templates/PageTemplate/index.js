@@ -142,6 +142,7 @@ const PageTemplate = (props, context) =>  {
 PageTemplate.contextTypes = {
   theme: customPropTypes.muiRequired,
   styleManager: customPropTypes.muiRequired,
+  children: PropTypes.any.isRequired,
 }
 
 export default PageTemplate

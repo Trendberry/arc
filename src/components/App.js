@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   render() {
-    const { children, location } = this.props
+    const { children } = this.props
 
     return (
       <div>
@@ -31,16 +31,20 @@ class App extends Component {
             { property: 'og:image', content: 'https://diegohaz.github.io/arc/thumbnail.png' },
             { property: 'og:image:type', content: 'image/png' },
             { property: 'og:image:width', content: '1200' },
-            { property: 'og:image:height', content: '630' }
+            { property: 'og:image:height', content: '630' },
           ]}
           link={[
-            { rel: 'icon', href: 'https://diegohaz.github.io/arc/icon.png' }
+            { rel: 'icon', href: 'https://diegohaz.github.io/arc/icon.png' },
           ]}
         />
         {children}
       </div>
     )
   }
+}
+
+App.propTypes = {
+  children: PropTypes.any,
 }
 
 export default App
