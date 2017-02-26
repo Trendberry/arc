@@ -5,34 +5,13 @@ import customPropTypes from 'material-ui/utils/customPropTypes';
 
 import { DataTable } from 'components'
 
-let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein };
-}
-
-const columnData = [
-  { id: 'name', numeric: false, padding: false, label: 'Dessert (100g serving)' },
-  { id: 'calories', numeric: true, padding: true, label: 'Calories' },
-  { id: 'fat', numeric: true, padding: true, label: 'Fat (g)' },
-  { id: 'carbs', numeric: true, padding: true, label: 'Carbs (g)' },
-  { id: 'protein', numeric: true, padding: true, label: 'Protein (g)' },
-];
-
-
 class DataTableContainer extends Component {
 
   state = {
     order: 'asc',
     orderBy: 'calories',
     selected: [],
-    data: [
-      createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-      createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-      createData('Eclair', 262, 16.0, 24, 6.0),
-      createData('Cupcake', 305, 3.7, 67, 4.3),
-      createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ],
+    data: this.props.data,
   };
 
   handleRequestSort = (event, property) => {
@@ -54,24 +33,24 @@ class DataTableContainer extends Component {
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      return this.setState({ selected: this.state.data.map((n) => n.id) });
+      return this.setState({ selected: this.state.data.map((n) => n._id) });
     }
     return this.setState({ selected: [] });
   };
 
-  handleKeyDown = (event, id) => {
+  handleKeyDown = (event, _id) => {
     if (keycode(event) === 'space') {
-      this.handleClick(event, id);
+      this.handleCheckboxClick(event, _id);
     }
   }
 
-  handleClick = (event, id) => {
+  handleCheckboxClick = (event, _id) => {
     const { selected } = this.state;
-    const selectedIndex = selected.indexOf(id);
+    const selectedIndex = selected.indexOf(_id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, _id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -86,31 +65,34 @@ class DataTableContainer extends Component {
     this.setState({ selected: newSelected });
   };
 
-  isSelected = (id) => {
-    return this.state.selected.indexOf(id) !== -1;
+  isSelected = (_id) => {
+    return this.state.selected.indexOf(_id) !== -1;
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({ data: nextProps.data })
+  }
 
   render() {
-    const columnData = [
-      { id: 'name', numeric: false, padding: false, label: 'Dessert (100g serving)' },
-      { id: 'calories', numeric: true, padding: true, label: 'Calories' },
-      { id: 'fat', numeric: true, padding: true, label: 'Fat (g)' },
-      { id: 'carbs', numeric: true, padding: true, label: 'Carbs (g)' },
-      { id: 'protein', numeric: true, padding: true, label: 'Protein (g)' },
-    ];
+
+    const { title, columnData } = this.props
+    const {  order, orderBy, selected, data } = this.state
 
     return (
       <DataTable
-        {...this.state}
-        {...this.props}
 
+        title={title}
         columnData={columnData}
+
+        order={order}
+        orderBy={orderBy}
+        selected={selected}
+        data={this.state.data}
 
         handleSelectAllClick={this.handleSelectAllClick}
         handleRequestSort={this.handleRequestSort}
         isSelected={this.isSelected}
-        handleClick={this.handleClick}
+        handleCheckboxClick={this.handleCheckboxClick}
         handleKeyDown={this.handleKeyDown}
       />
     );

@@ -11,21 +11,34 @@ import LightbulbOutlineIcon from 'material-ui/svg-icons/lightbulb-outline';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import { AdminPageTemplate } from 'components'
 import { fromStatus } from 'store/selectors'
+import shallowEqual from 'react-redux/lib/utils/shallowEqual'
+
+import isEqual from 'lodash/isEqual'
 
 class AdminPageTemplateContainer extends Component {
+  constructor(props) {
+    super(props)
+    // console.log('constructor')
+  }
+
   static propTypes = {
     children: PropTypes.node.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    // dispatch: PropTypes.func.isRequired,
     // width: PropTypes.string.isRequired,
-  };
+  }
 
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
-  };
+  }
 
   state = {
     drawerOpen: false,
-  };
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log('prev ' + prevProps.loading)
+  // }
+
 
   handleDrawerClose = () => {
     this.setState({ drawerOpen: false });
@@ -36,10 +49,11 @@ class AdminPageTemplateContainer extends Component {
   };
 
   handleToggleShade = () => {
-    this.props.dispatch({ type: 'TOGGLE_THEME_SHADE' });
-  };
+    // this.props.dispatch({ type: 'TOGGLE_THEME_SHADE' });
+  }
 
   render() {
+    // console.log('render')
     const {
       children,
       // width,
@@ -49,7 +63,6 @@ class AdminPageTemplateContainer extends Component {
 
     // let drawerDocked = isWidthUp('lg', width);
     let drawerDocked = true;
-
     return (
       <AdminPageTemplate
         handleDrawerToggle={this.handleDrawerToggle}
@@ -58,7 +71,6 @@ class AdminPageTemplateContainer extends Component {
         drawerDocked={drawerDocked}
         drawerOpen={this.state.drawerOpen}
         location={location}
-        loading={loading}
       >
         {children}
       </AdminPageTemplate>
@@ -66,11 +78,11 @@ class AdminPageTemplateContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  loading: fromStatus.isLoading(state)
-})
+const mapStateToProps = (state) => {
+  // console.log('mapStateToProps')
+  return ({
+    loading: fromStatus.isLoading(state)
+  })
+}
 
-export default compose(
-  // withWidth(),
-  connect(mapStateToProps),
-)(AdminPageTemplateContainer);
+export default connect(mapStateToProps)(AdminPageTemplateContainer)

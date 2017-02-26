@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { createStyleSheet } from 'jss-theme-reactor';
-import shallowEqual from 'recompose/shallowEqual';
+// import shallowEqual from 'recompose/shallowEqual';
 import { List, ListItem, ListItemText, ListItemIcon } from 'material-ui/List';
 import Toolbar from 'material-ui/Toolbar';
 import Drawer from 'material-ui/Drawer';

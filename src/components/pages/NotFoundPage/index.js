@@ -18,7 +18,7 @@ const styles = createStyleSheet('NotFoundPage', (theme) => ({
   container: {
     color: theme.palette.text.secondary,
     fontSize: '16px',
-    height: 'calc(100vh - 104px)',
+    height: 'calc(100vh - 116px)',
     position: 'relative',
     textAlign: 'center',
     '& h1': {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-// import { PageTemplate } from 'containers'
+// import { AdminPageTemplate } from 'containers'
 
 const HomePage = () => {
   return (

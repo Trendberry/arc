@@ -8,7 +8,7 @@ import { createMemoryHistory, RouterContext, match } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Router } from 'express'
 import express from 'services/express'
-import routes from 'routes'
+import getRoutes from 'routes'
 import configureStore from 'store/configure'
 import { env, port, ip, basename } from 'config'
 import { setCsrfToken } from 'store/actions'
@@ -41,11 +41,13 @@ router.use((req, res, next) => {
   }
 
   const location = req.url.replace(basename, '')
-  const memoryHistory = createMemoryHistory({ basename })
+  const memoryHistory = createMemoryHistory({ entries: [location], basename })
   const store = configureStore({}, memoryHistory)
   const history = syncHistoryWithStore(memoryHistory, store)
 
   store.dispatch(setCsrfToken(req.csrfToken()))
+
+  const routes = getRoutes(store)
 
   match({ history, routes, location }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
@@ -55,6 +57,11 @@ router.use((req, res, next) => {
     if (error || !renderProps) {
       return next(error)
     }
+
+    console.log('-------------------server-------------------')
+    console.log(location)
+    console.log(renderProps.location)
+    console.log('-------------------server-------------------')
 
     const fetchData = () => new Promise((resolve, reject) => {
       const method = req.method.toLowerCase()
@@ -82,11 +89,11 @@ router.use((req, res, next) => {
       const { styleManager, theme } = createStyleManager()
 
       const content = renderToString(
-        <Provider store={store}>
-          <MuiThemeProvider styleManager={styleManager} theme={theme}>
+        <MuiThemeProvider styleManager={styleManager} theme={theme}>
+          <Provider store={store}>
             <RouterContext {...renderProps} />
-          </MuiThemeProvider>
-        </Provider>
+          </Provider>
+        </MuiThemeProvider>
       )
 
       const styles = styleManager.sheetsToString() //.replace(/[\n|\s]+/g, ' ') //styleSheet.rules().map(rule => rule.cssText).join('\n')

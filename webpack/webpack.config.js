@@ -53,6 +53,7 @@ if (DEBUG) {
   ])
 } else {
   config.plugins = config.plugins.concat([
+    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
     new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfig)
   ])

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Text from 'material-ui/Text';
@@ -7,9 +7,9 @@ import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/menu';
 import LightbulbOutlineIcon from 'material-ui/svg-icons/lightbulb-outline';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import { AppDrawer, AppContent } from 'components'
+// import { AppContent } from 'containers'
 import { CircularProgress } from 'material-ui/Progress';
 
 const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
@@ -45,25 +45,81 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
         width: 'auto',
       },
 
-      '.example-enter': {
+      '.enter': {
         height: 0,
         opacity: 0,
         transition: 'all .275s .275s cubic-bezier(0.0, 0.0, 0.2, 1)',
         transform: 'translateY(100px)',
       },
-      '.example-enter.example-enter-active': {
+      '.enter.enter-active': {
         opacity: 1,
         transform: 'translateY(0)',
       },
-      '.example-leave': {
+      '.leave': {
         height: 0,
         opacity: 1,
         transition: 'all .275s cubic-bezier(0.4, 0.0, 0.2, 1)',
         transform: 'translateY(0)',
       },
-      '.example-leave.example-leave-active': {
+      '.leave.leave-active': {
         opacity: 0,
         transform: 'translateY(100px)',
+      },
+
+      '#nprogress': {
+        pointerEvents: 'none'
+      },
+      '#nprogress .bar': {
+        background: theme.palette.accent.A100,
+        position: 'fixed',
+        zIndex: 9999,
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: 2
+      },
+      '#nprogress .peg': {
+        display: 'block',
+        position: 'absolute',
+        right: 0,
+        width: 100,
+        height: '100%',
+        boxShadow: `0 0 10px ${theme.palette.accent.A100}, 0 0 5px ${theme.palette.accent.A100}`,
+        opacity: 1,
+        transform: 'rotate(3deg) translate(0px, -4px)'
+      },
+      '#nprogress .spinner': {
+        'display': 'block',
+        'position': 'fixed',
+        'z-index': 9999,
+        'top': '15px',
+        'right': '15px'
+      },
+      '#nprogress .spinner-icon': {
+        'width': '18px',
+        'height': '18px',
+        'box-sizing': 'border-box',
+        'border': 'solid 2px transparent',
+        'border-top-color': '#29d',
+        'border-left-color': '#29d',
+        'border-radius': '50%',
+        '-webkit-animation': 'nprogress-spinner 400ms linear infinite',
+        'animation': 'nprogress-spinner 400ms linear infinite'
+      },
+      '.nprogress-custom-parent': {
+        'overflow': 'hidden',
+        'position': 'relative'
+      },
+      '.nprogress-custom-parent #nprogress .spinner, .nprogress-custom-parent #nprogress .bar': {
+        'position': 'absolute'
+      },
+      '@keyframes nprogress-spinner': {
+        '0%': {
+          'transform': 'rotate(0deg)'
+        },
+        '100%': {
+          'transform': 'rotate(360deg)'
+        }
       },
 
       // '.example2-enter': {
@@ -135,8 +191,8 @@ const AdminPageTemplate = (props, context) =>  {
     drawerDocked,
     drawerOpen,
     location,
-    loading
   } = props
+
 
   const classes = context.styleManager.render(styleSheet);
   const title = ''
@@ -176,19 +232,8 @@ const AdminPageTemplate = (props, context) =>  {
         onRequestClose={handleDrawerClose}
         open={drawerOpen}
       />
-      <AppContent>
-        <ReactCSSTransitionGroup
-          component="div"
-          transitionName="example"
-          transitionEnterTimeout={550}
-          transitionLeaveTimeout={275}
-        >
-          {/*<div key={location.pathname}>{children}</div>*/}
-          {/*{loading ? <CircularProgress /> : <div key={location.pathname}>{children}</div>}*/}
-          {React.cloneElement(children, {
-            key: location.pathname
-          })}
-          </ReactCSSTransitionGroup>
+      <AppContent location={location}>
+        {children}
       </AppContent>
     </div>
   )

@@ -19,7 +19,7 @@ const DataTableHead = (props) => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell checkbox>
+        <TableCell style={{ paddingRight: 12, width: '1%' }} checkbox>
           <Checkbox onChange={onSelectAllClick} />
         </TableCell>
 

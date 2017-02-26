@@ -13,7 +13,8 @@ const Html = ({ styles, assets, state, content }) => {
         {helmet.meta.toComponent()}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {helmet.link.toComponent()}
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <style id="jss-server-side" dangerouslySetInnerHTML={{ __html: styles }} />
       </head>
       <body>
@@ -22,12 +23,6 @@ const Html = ({ styles, assets, state, content }) => {
         {Object.keys(assets.javascript).map((key) =>
           <script key={key} src={assets.javascript[key]} />
         )}
-        <script defer dangerouslySetInnerHTML={{ __html: `
-          var jssStyles = document.getElementById('jss-server-side');
-          if (jssStyles && jssStyles.parentNode) {
-            jssStyles.parentNode.removeChild(jssStyles);
-          }
-        `}} />
       </body>
     </html>
   )

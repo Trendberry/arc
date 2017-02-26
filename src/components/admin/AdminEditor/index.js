@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import { Editor, EditorState, RichUtils, convertFromHTML, ContentState } from 'draft-js'
 import { createStyleSheet } from 'jss-theme-reactor'
 import customPropTypes from 'material-ui/utils/customPropTypes'
