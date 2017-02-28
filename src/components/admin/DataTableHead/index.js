@@ -9,8 +9,8 @@ import Checkbox from 'material-ui/Checkbox'
 
 const DataTableHead = (props) => {
   const {
-    order,
-    orderBy,
+    _order,
+    _sort,
     columnData,
     onSelectAllClick,
     createSortHandler
@@ -27,8 +27,8 @@ const DataTableHead = (props) => {
           return (
             <TableCell key={column.id} numeric={column.numeric} padding={column.padding}>
               <TableSortLabel
-                active={orderBy === column.id}
-                direction={order}
+                active={_sort === column.id}
+                direction={_order}
                 onClick={createSortHandler(column.id)}
               >
                 {column.label}
@@ -51,8 +51,8 @@ DataTableHead.propTypes = {
   createSortHandler: PropTypes.func.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
+  _order: PropTypes.string.isRequired,
+  _sort: PropTypes.string.isRequired,
 }
 
 export default DataTableHead

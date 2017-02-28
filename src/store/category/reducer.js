@@ -31,7 +31,8 @@ const findReducer = (state, action) => {
     case CATEGORY_DELETE_SUCCESS:
       return {
         ...state,
-        list: [...state.list.slice(0, index), ...state.list.slice(index + 1)]
+        list: [...state.list.slice(0, index), ...state.list.slice(index + 1)],
+        count: state.count--
       }
     // istanbul ignore next
     default:
@@ -44,12 +45,14 @@ export default (state = initialState, action) => {
     case CATEGORY_LIST_SUCCESS:
       return {
         ...state,
-        list: action.list
+        list: action.list,
+        count: action.count
       }
     case CATEGORY_CREATE_SUCCESS:
       return {
         ...state,
-        list: [action.data, ...state.list]
+        list: [action.data, ...state.list],
+        count: state.count++
       }
     case CATEGORY_READ_SUCCESS:
       return {

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Field } from 'redux-form'
+import Field from 'redux-form/lib/Field'
 
 import { createStyleSheet } from 'jss-theme-reactor'
 import customPropTypes from 'material-ui/utils/customPropTypes'
@@ -13,7 +13,7 @@ import Layout from 'material-ui/Layout'
 import Button from 'material-ui/Button'
 import { CircularProgress } from 'material-ui/Progress';
 
-import { AdminEditor } from 'components'
+// import { AdminEditor } from 'components'
 
 const toolbarStyleSheet = createStyleSheet('Toolbar', (theme) => {
   return {
@@ -60,11 +60,11 @@ const renderTextAreaField = props => {
   )
 }
 
-const renderEditorField = props => {
-  return (
-    <AdminEditor content={props.input.value} {...props.input} />
-  )
-}
+// const renderEditorField = props => {
+//   return (
+//     <AdminEditor content={props.input.value} {...props.input} />
+//   )
+// }
 
 const AdminCategoryForm = ({ id, loading, handleSubmit, submitting }, context) => {
 
@@ -99,7 +99,7 @@ const AdminCategoryForm = ({ id, loading, handleSubmit, submitting }, context) =
               </div>
               <div className={classes.fieldRow}>
                 {/*<Field name="description" label="Description" component={renderTextAreaField} />*/}
-                <Field name="description" label="Description" component={renderEditorField} />
+                <Field name="description" label="Description" component={renderTextField} />
               </div>
               {/*<div className={classes.fieldRow}>
                 <AdminEditor />

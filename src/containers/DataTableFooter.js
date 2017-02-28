@@ -19,15 +19,17 @@ class DataTableFooterContainer extends Component {
   handleMenuItemClick = (event, index) => {
     this.setState({ selectedIndex: index, open: false })
 
-    // NProgress.start()
+    const query = this.context.router.location.query || {}
 
-    // return new Promise((resolve, reject) => {
-    //   this.context.store.dispatch(categoryList.request(this.props.paginationOptions[index], resolve, reject))
-    // })
-    // .then(result => {
-    //   NProgress.done()
-    // })
+    const _limit = this.props.paginationOptions[index]
+    query._limit = _limit
 
+    this.context.router.push({
+      ...this.context.router.location,
+      query
+    })
+
+    this.props.getData({ store: this.context.store, ...{ ...this.context.router, query} })
 }
 
   handleRequestClose = () => this.setState({ open: false })
@@ -66,6 +68,7 @@ DataTableFooterContainer.defaultProps = {
 }
 
 DataTableFooterContainer.contextTypes = {
+  router: PropTypes.object,
   store: PropTypes.object
 }
 

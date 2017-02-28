@@ -90,7 +90,7 @@ export const styleSheet = createStyleSheet('AppDrawer', (theme) => {
       }
     }
   };
-});
+})
 
 const AppDrawer = (props, context) =>  {
 

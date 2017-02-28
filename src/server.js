@@ -4,7 +4,9 @@ import serialize from 'serialize-javascript'
 import csrf from 'csurf'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import { Provider } from 'react-redux'
-import { createMemoryHistory, RouterContext, match } from 'react-router'
+import createMemoryHistory from 'react-router/lib/createMemoryHistory'
+import match from 'react-router/lib/match'
+import RouterContext from 'react-router/lib/RouterContext'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Router } from 'express'
 import express from 'services/express'
@@ -14,26 +16,11 @@ import { env, port, ip, basename } from 'config'
 import { setCsrfToken } from 'store/actions'
 import Html from 'components/Html'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import createPalette from 'material-ui/styles/palette';
-import createMuiTheme from 'material-ui/styles/theme';
-import { blue, pink } from 'material-ui/styles/colors';
+import { MuiThemeProvider, styleManager, theme } from 'mui'
 
 const router = new Router()
 
 router.use(csrf({ cookie: true }))
-
-const createStyleManager = () => (
-  MuiThemeProvider.createDefaultContext({
-    theme: createMuiTheme({
-      palette: createPalette({
-        primary: blue,
-        accent: pink,
-        type: 'light',
-      }),
-    }),
-  })
-)
 
 router.use((req, res, next) => {
   if (env === 'development') {
@@ -41,7 +28,7 @@ router.use((req, res, next) => {
   }
 
   const location = req.url.replace(basename, '')
-  const memoryHistory = createMemoryHistory({ entries: [location], basename })
+  const memoryHistory = createMemoryHistory({ basename })
   const store = configureStore({}, memoryHistory)
   const history = syncHistoryWithStore(memoryHistory, store)
 
@@ -84,10 +71,6 @@ router.use((req, res, next) => {
     })
 
     const render = (store) => {
-
-      // Create a styleManager instance.
-      const { styleManager, theme } = createStyleManager()
-
       const content = renderToString(
         <MuiThemeProvider styleManager={styleManager} theme={theme}>
           <Provider store={store}>

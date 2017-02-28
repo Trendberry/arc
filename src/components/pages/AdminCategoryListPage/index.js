@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Helmet from 'react-helmet'
 import { createStyleSheet } from 'jss-theme-reactor'
 import customPropTypes from 'material-ui/utils/customPropTypes'
-import { easing, durations } from 'material-ui/styles/transitions'
+import { easing, duration } from 'material-ui/styles/transitions'
 import dateFormat from 'dateformat'
 
 import { DataTable } from 'containers'
 
-const styleSheet = createStyleSheet('AdminCategoryListPage', (theme) => {
+const styleSheet = createStyleSheet('Name', (theme) => {
   return {
     ancestor: {
       color: theme.palette.text.secondary,
@@ -31,7 +31,7 @@ const styleSheet = createStyleSheet('AdminCategoryListPage', (theme) => {
         opacity: 0,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        transition: `all ${durations.standard}ms ${easing.easeOut}`,
+        transition: `all ${duration.standard}ms ${easing.easeOut}`,
         verticalAlign: 'top',
       },
     },
@@ -51,36 +51,50 @@ const styleSheet = createStyleSheet('AdminCategoryListPage', (theme) => {
   }
 })
 
+const Name = (props, context) => {
+
+    const classes = context.styleManager.render(styleSheet)
+    const { listItem } = props
+    return (
+      <span className={classes.name}>
+        {listItem.ancestors.map(ancestor => {
+          return <span key={ancestor._id} className={classes.ancestor}><span>{ancestor.name}</span></span>
+        })}
+        {listItem.name}
+      </span>
+    )
+}
+
+Name.contextTypes = {
+  styleManager: customPropTypes.muiRequired,
+  theme: customPropTypes.muiRequired,
+}
+
 const AdminCategoryListPage = (props, context) => {
-  const { list } = props
-  const classes = context.styleManager.render(styleSheet)
+  const { list, count, getList } = props
 
   const columnData = [
-    { id: 'altName', numeric: false, padding: false, label: 'Name' },
+    { id: 'name', numeric: false, padding: false, label: 'Name' },
     { id: 'created', numeric: false, padding: true, label: 'Created', style: { width: '1%' } },
   ]
 
-  list.map(listItem => {
+  const data = []
+
+  list.forEach(listItem => {
     let { name, created } = listItem
-    listItem.altName = {__html: `
-      <span class="${classes.name}">
-        ${listItem.ancestors.map(ancestor => {
-          return `<span class="${classes.ancestor}"><span>${ancestor.name}</span></span>`
-        }).join('')}
-        ${name}
-      </span>
-    `}
 
     let date = new Date(created)
-    listItem.created = dateFormat(date, 'hh:MM TT mm/dd/yyyy')
-
-    return listItem
+    data.push({
+      ...listItem,
+      name: <Name listItem={listItem} name={name} />,
+      created: dateFormat(date, 'hh:MM TT mm/dd/yyyy')
+    })
   })
 
   return (
     <div>
       <Helmet title="Categories" />
-      <DataTable title="Categories" columnData={columnData} data={list} />
+      <DataTable title="Categories" {...{ columnData, data, getData: getList }} />
     </div>
   )
 }

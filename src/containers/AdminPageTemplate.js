@@ -11,9 +11,9 @@ import LightbulbOutlineIcon from 'material-ui/svg-icons/lightbulb-outline';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import { AdminPageTemplate } from 'components'
 import { fromStatus } from 'store/selectors'
-import shallowEqual from 'react-redux/lib/utils/shallowEqual'
+// import shallowEqual from 'react-redux/lib/utils/shallowEqual'
 
-import isEqual from 'lodash/isEqual'
+import NProgress from 'nprogress'
 
 class AdminPageTemplateContainer extends Component {
   constructor(props) {
@@ -35,6 +35,11 @@ class AdminPageTemplateContainer extends Component {
     drawerOpen: false,
   }
 
+  // componentDidMount() {
+
+
+  // }
+
   // componentDidUpdate(prevProps, prevState) {
   //   console.log('prev ' + prevProps.loading)
   // }
@@ -53,6 +58,26 @@ class AdminPageTemplateContainer extends Component {
   }
 
   render() {
+
+    const canUseDOM = !!(
+      typeof window !== 'undefined' &&
+      window.document &&
+      window.document.createElement
+    )
+
+    canUseDOM &&
+    this.props.loading &&
+    NProgress.configure({
+      showSpinner: false,
+      speed: 500,
+      trickleSpeed: 200
+    }) &&
+    NProgress.start()
+
+    canUseDOM &&
+    !this.props.loading &&
+    NProgress.done()
+
     // console.log('render')
     const {
       children,
@@ -78,11 +103,8 @@ class AdminPageTemplateContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  // console.log('mapStateToProps')
-  return ({
-    loading: fromStatus.isLoading(state)
-  })
-}
+const mapStateToProps = (state) => ({
+  loading: fromStatus.isLoading(state)
+})
 
 export default connect(mapStateToProps)(AdminPageTemplateContainer)

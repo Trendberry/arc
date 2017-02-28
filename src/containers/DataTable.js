@@ -3,40 +3,49 @@ import { createStyleSheet } from 'jss-theme-reactor';
 import keycode from 'keycode';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
+import { categoryList } from 'store/actions'
+
 import { DataTable } from 'components'
 
 class DataTableContainer extends Component {
 
   state = {
-    order: 'asc',
-    orderBy: 'calories',
+    _order: this.context.router.location.query._order.toLowerCase() || 'asc',
+    _sort: this.context.router.location.query._sort || 'date',
+    _page: this.context.router.location.query._page || 1,
     selected: [],
     data: this.props.data,
-  };
+  }
 
   handleRequestSort = (event, property) => {
-    const orderBy = property;
-    let order = 'desc';
+    const _sort = property;
+    let _order = 'desc';
 
-    if (this.state.orderBy === property && this.state.order === 'desc') {
-      order = 'asc';
+    if (this.state._sort === property && this.state._order === 'desc') {
+      _order = 'asc';
     }
 
-    const data = this.state.data.sort(
-      (a, b) => (
-        order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy]
-      ),
-    );
+    this.setState({ _order, _sort });
 
-    this.setState({ data, order, orderBy });
-  };
+    const query = this.context.router.location.query
+    _sort && (query._sort = _sort)
+    _order && (query._order = _order.toUpperCase())
+
+    this.context.router.push({
+      ...this.context.router.location,
+      query
+    })
+
+    this.props.getData({ store: this.context.store, ...{ ...this.context.router, query} })
+
+  }
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
       return this.setState({ selected: this.state.data.map((n) => n._id) });
     }
     return this.setState({ selected: [] });
-  };
+  }
 
   handleKeyDown = (event, _id) => {
     if (keycode(event) === 'space') {
@@ -63,7 +72,7 @@ class DataTableContainer extends Component {
     }
 
     this.setState({ selected: newSelected });
-  };
+  }
 
   isSelected = (_id) => {
     return this.state.selected.indexOf(_id) !== -1;
@@ -75,8 +84,8 @@ class DataTableContainer extends Component {
 
   render() {
 
-    const { title, columnData } = this.props
-    const {  order, orderBy, selected, data } = this.state
+    const { title, columnData, getData } = this.props
+    const {  _order, _sort, selected, data } = this.state
 
     return (
       <DataTable
@@ -84,10 +93,12 @@ class DataTableContainer extends Component {
         title={title}
         columnData={columnData}
 
-        order={order}
-        orderBy={orderBy}
+        _order={_order}
+        _sort={_sort}
         selected={selected}
         data={this.state.data}
+
+        {...{ getData }}
 
         handleSelectAllClick={this.handleSelectAllClick}
         handleRequestSort={this.handleRequestSort}
@@ -99,5 +110,9 @@ class DataTableContainer extends Component {
   }
 }
 
+DataTableContainer.contextTypes = {
+  router: PropTypes.object,
+  store: PropTypes.object
+}
 
 export default DataTableContainer

@@ -20,8 +20,8 @@ export const CATEGORY_DELETE_SUCCESS = 'CATEGORY_DELETE_SUCCESS'
 export const CATEGORY_DELETE_FAILURE = 'CATEGORY_DELETE_FAILURE'
 
 export const categoryList = {
-  request: (limit, resolve, reject) => ({ type: CATEGORY_LIST_REQUEST, limit, resolve, reject }),
-  success: (list) => ({ type: CATEGORY_LIST_SUCCESS, list }),
+  request: (params, resolve, reject) => ({ type: CATEGORY_LIST_REQUEST, params, resolve, reject }),
+  success: (list, count) => ({ type: CATEGORY_LIST_SUCCESS, list, count }),
   failure: (error) => ({ type: CATEGORY_LIST_FAILURE, error })
 }
 

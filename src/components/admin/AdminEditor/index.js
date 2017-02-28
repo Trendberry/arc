@@ -1,6 +1,10 @@
 import React, {Component} from 'react'
 // import ReactDOM from 'react-dom'
-import { Editor, EditorState, RichUtils, convertFromHTML, ContentState } from 'draft-js'
+// import { EditorState, RichUtils, convertFromHTML, ContentState } from 'draft-js'
+// import Editor from 'draft-js/lib/DraftEditor.react'
+// import RichUtils from 'draft-js/lib/RichTextEditorUtil'
+// import convertFromHTML from 'draft-js/lib/convertFromHTMLToContentBlocks'
+// import ContentState from 'draft-js/lib/ContentState'
 import { createStyleSheet } from 'jss-theme-reactor'
 import customPropTypes from 'material-ui/utils/customPropTypes'
 
@@ -187,57 +191,57 @@ class AdminEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    if (props.content) {
-      const blocksFromHTML = convertFromHTML(props.content);
-      const state = ContentState.createFromBlockArray(
-        blocksFromHTML.contentBlocks,
-        blocksFromHTML.entityMap,
-      )
+    // if (props.content) {
+    //   const blocksFromHTML = convertFromHTML(props.content);
+    //   const state = ContentState.createFromBlockArray(
+    //     blocksFromHTML.contentBlocks,
+    //     blocksFromHTML.entityMap,
+    //   )
 
-      this.state = {
-        editorState: EditorState.createWithContent(state)
-      }
-    } else {
+    //   this.state = {
+    //     editorState: EditorState.createWithContent(state)
+    //   }
+    // } else {
+    // }
       this.state = {
         editorState: EditorState.createEmpty()
       }
-    }
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
 
-    this.handleKeyCommand = (command) => this._handleKeyCommand(command);
-    this.toggleBlockType = (type) => this._toggleBlockType(type);
-    this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+    // this.handleKeyCommand = (command) => this._handleKeyCommand(command);
+    // this.toggleBlockType = (type) => this._toggleBlockType(type);
+    // this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
   }
 
-  _handleKeyCommand(command) {
-    const {editorState} = this.state;
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.onChange(newState);
-      return true;
-    }
-    return false;
-  }
+  // _handleKeyCommand(command) {
+  //   const {editorState} = this.state;
+  //   const newState = RichUtils.handleKeyCommand(editorState, command);
+  //   if (newState) {
+  //     this.onChange(newState);
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  _toggleBlockType(blockType) {
-    this.onChange(
-      RichUtils.toggleBlockType(
-        this.state.editorState,
-        blockType
-      )
-    );
-  }
+  // _toggleBlockType(blockType) {
+  //   this.onChange(
+  //     RichUtils.toggleBlockType(
+  //       this.state.editorState,
+  //       blockType
+  //     )
+  //   );
+  // }
 
-  _toggleInlineStyle(inlineStyle) {
-    this.onChange(
-      RichUtils.toggleInlineStyle(
-        this.state.editorState,
-        inlineStyle
-      )
-    );
-  }
+  // _toggleInlineStyle(inlineStyle) {
+  //   this.onChange(
+  //     RichUtils.toggleInlineStyle(
+  //       this.state.editorState,
+  //       inlineStyle
+  //     )
+  //   );
+  // }
 
   render() {
     const { editorState } = this.state;
@@ -257,16 +261,16 @@ class AdminEditor extends React.Component {
       <div className={classes.root}>
         <BlockStyleControls
           editorState={editorState}
-          onToggle={this.toggleBlockType}
           classes={classes}
         />
+          {/*onToggle={this.toggleBlockType}*/}
         <InlineStyleControls
           editorState={editorState}
-          onToggle={this.toggleInlineStyle}
           classes={classes}
         />
+          {/*onToggle={this.toggleInlineStyle}*/}
         <div className={className} onClick={this.focus}>
-          <Editor
+          {/*<Editor
             blockStyleFn={getBlockStyle}
             customStyleMap={styleMap}
             editorState={editorState}
@@ -275,7 +279,7 @@ class AdminEditor extends React.Component {
             placeholder="Tell a story..."
             ref="editor"
             spellCheck={true}
-          />
+          />*/}
         </div>
       </div>
     );

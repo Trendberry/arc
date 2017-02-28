@@ -5,6 +5,7 @@ import customPropTypes from 'material-ui/utils/customPropTypes'
 import IconButton from 'material-ui/IconButton'
 import Text from 'material-ui/Text'
 import Toolbar from 'material-ui/Toolbar'
+import SvgIcon from 'material-ui/SvgIcon'
 
 const IconAdd = (props) => (
   <SvgIcon {...props}>
@@ -18,7 +19,7 @@ const IconFilter = (props) => (
   </SvgIcon>
 )
 
-const toolbarStyleSheet = createStyleSheet('DataTableToolbar', (theme) => {
+const styleSheet  = createStyleSheet('DataTableToolbar', (theme) => {
   return {
     root: { paddingRight: 12 },
     highlight: (
@@ -36,6 +37,7 @@ const toolbarStyleSheet = createStyleSheet('DataTableToolbar', (theme) => {
     spacer: { flex: '1 1 100%' },
     actions: {
       color: theme.palette.text.secondary,
+      marginRight: -10,
       whiteSpace: 'nowrap'
     },
     title: { flex: '0 0 auto' },
@@ -44,7 +46,7 @@ const toolbarStyleSheet = createStyleSheet('DataTableToolbar', (theme) => {
 
 const DataTableToolbar = (props, context) => {
   const { numSelected, title } = props;
-  const classes = context.styleManager.render(toolbarStyleSheet);
+  const classes = context.styleManager.render(styleSheet);
   let classNames = classes.root;
 
   if (numSelected > 0) {

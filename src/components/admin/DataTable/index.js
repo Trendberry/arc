@@ -11,7 +11,7 @@ import {
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 
-import { DataTableHead, DataTableFooter} from 'containers'
+import { DataTableHead, DataTableFooter } from 'containers'
 import { DataTableToolbar } from 'components'
 
 const styleSheet = createStyleSheet('DataTable', () => ({
@@ -25,11 +25,12 @@ const DataTable = (props, context) => {
 
   const {
     data,
-    order,
-    orderBy,
+    _order,
+    _sort,
     selected,
 
     columnData,
+    getData,
 
     handleSelectAllClick,
     handleRequestSort,
@@ -46,8 +47,8 @@ const DataTable = (props, context) => {
       <DataTableToolbar title={title} numSelected={selected.length} />
       <Table>
         <DataTableHead
-          order={order}
-          orderBy={orderBy}
+          _order={_order}
+          _sort={_sort}
           onSelectAllClick={handleSelectAllClick}
           onRequestSort={handleRequestSort}
           columnData={columnData}
@@ -70,17 +71,24 @@ const DataTable = (props, context) => {
                   <Checkbox checked={isNSelected} onClick={(event) => handleCheckboxClick(event, n._id)} />
                 </TableCell>
                 {columnData.map(({ id, numeric, padding, style }) => {
-                  let dt = typeof n[id] === 'object' ? <div dangerouslySetInnerHTML={n[id]} /> : n[id]
+                  let content
+                  if (React.isValidElement(n[id])) {
+                    content = React.cloneElement(n[id]);
+                  } else if (typeof props.cell === 'function') {
+                    content = n[id]();
+                  } else {
+                    content = n[id]
+                  }
                   return (
-                    <TableCell key={id} padding={padding} numeric={numeric} style={style}>{dt}</TableCell>
+                    <TableCell key={id} padding={padding} numeric={numeric} style={style}>{content}</TableCell>
                   )
-                }, this)}
+                })}
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
-      <DataTableFooter />
+      <DataTableFooter { ...{ getData }} />
     </Paper>
   );
 }

@@ -32,11 +32,12 @@ export function* updatePost(oldData, newData) {
   }
 }
 
-export function* listCategories(limit) {
+export function* listCategories(params) {
+
   try {
-    const params = { _limit: limit, _sort: '_id', _order: 'DESC' }
-    const { data } = yield call(api.get, '/categories', { params })
-    yield put(categoryList.success(data))
+    const { data, headers } = yield call(api.get, '/categories', { params })
+    // console.log(headers['x-total-count'])
+    yield put(categoryList.success(data, parseInt(headers['x-total-count'])))
   } catch (e) {
     yield put(categoryList.failure(e))
   }
@@ -65,8 +66,8 @@ export function* watchCategoryUpdateRequest() {
 
 export function* watchCategoryListRequest() {
   while (true) {
-    const { limit } = yield take(CATEGORY_LIST_REQUEST)
-    yield call(listCategories, limit)
+    const { params } = yield take(CATEGORY_LIST_REQUEST)
+    yield call(listCategories, params)
   }
 }
 

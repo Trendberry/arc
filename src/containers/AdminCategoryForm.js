@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
-import merge from 'lodash/merge'
+import reduxForm from 'redux-form/lib/reduxForm'
 import { fromForm, fromEntities } from 'store/selectors'
 import { categoryCreate, categoryRead, categoryUpdate } from 'store/actions'
 import { createValidator, required } from 'services/validation'
@@ -42,12 +41,10 @@ const mapStateToProps = (state, { id }) => {
 
   if (id) {
     return ({
-      initialValues: merge(
-        fromEntities.getDetail(state, 'category', id),
-        {
+      initialValues: {
+          ...fromEntities.getDetail(state, 'category', id),
           _csrf: fromForm.getCsrfToken(state)
-        }
-      ),
+        },
     })
   }
   return ({

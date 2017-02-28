@@ -12,13 +12,18 @@ class AdminCategoryListPageContainer extends Component {
   }
 
   static get({ store, location: { query } }) {
+    query || (query = {})
+    query._limit || (query._limit = 15)
+    query._order || (query._order = 'DESC')
+
     return new Promise((resolve, reject) => {
-      store.dispatch(categoryList.request(15, resolve, reject))
+      store.dispatch(categoryList.request(query, resolve, reject))
     })
   }
 
   static propTypes = {
     list: PropTypes.arrayOf(PropTypes.object).isRequired,
+    count: PropTypes.number.isRequired,
     limit: PropTypes.number
   }
 
@@ -26,19 +31,17 @@ class AdminCategoryListPageContainer extends Component {
     limit: 15
   }
 
-  static contextTypes = {
-    router: PropTypes.object
-  }
-
   render() {
-    const { list } = this.props
-    return <AdminCategoryListPage {...{ list }} />
+    const { list, count } = this.props
+    const getList = this.constructor.get
+    return <AdminCategoryListPage {...{ list, count, getList }} />
   }
 }
 
 const mapStateToProps = (state, ownProps)  => {
  return ({
-    list: fromEntities.getList(state, 'category', fromCategory.getList(state))
+    list: fromEntities.getList(state, 'category', fromCategory.getList(state)),
+    count: fromCategory.getCount(state)
   })
 }
 
