@@ -14,7 +14,9 @@ class AdminCategoryListPageContainer extends Component {
   static get({ store, location: { query } }) {
     query || (query = {})
     query._limit || (query._limit = 15)
-    query._order || (query._order = 'DESC')
+    // query._order || (query._order = 'DESC')
+
+    console.log(query)
 
     return new Promise((resolve, reject) => {
       store.dispatch(categoryList.request(query, resolve, reject))

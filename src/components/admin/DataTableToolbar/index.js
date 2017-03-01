@@ -7,6 +7,8 @@ import Text from 'material-ui/Text'
 import Toolbar from 'material-ui/Toolbar'
 import SvgIcon from 'material-ui/SvgIcon'
 
+import { SearchWidget } from 'containers'
+
 const IconAdd = (props) => (
   <SvgIcon {...props}>
     <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
@@ -36,6 +38,7 @@ const styleSheet  = createStyleSheet('DataTableToolbar', (theme) => {
     },
     spacer: { flex: '1 1 100%' },
     actions: {
+      flex: '0 0 auto',
       color: theme.palette.text.secondary,
       marginRight: -10,
       whiteSpace: 'nowrap'
@@ -70,8 +73,11 @@ const DataTableToolbar = (props, context) => {
           </div>
         ) : (
           <div className={classes.actions}>
-            <IconButton>filter_list</IconButton>
-            <IconButton>add</IconButton>
+            <SearchWidget />
+            {/*<IconButton>filter_list</IconButton>*/}
+            <IconButton>
+              <IconAdd />
+            </IconButton>
           </div>
         )}
     </Toolbar>

@@ -8,36 +8,13 @@ import { categoryList } from 'store/actions'
 import { DataTable } from 'components'
 
 class DataTableContainer extends Component {
+  constructor(props) {
+    super(props)
 
-  state = {
-    _order: this.context.router.location.query._order.toLowerCase() || 'asc',
-    _sort: this.context.router.location.query._sort || 'date',
-    _page: this.context.router.location.query._page || 1,
-    selected: [],
-    data: this.props.data,
-  }
-
-  handleRequestSort = (event, property) => {
-    const _sort = property;
-    let _order = 'desc';
-
-    if (this.state._sort === property && this.state._order === 'desc') {
-      _order = 'asc';
+    this.state = {
+      selected: [],
+      data: props.data
     }
-
-    this.setState({ _order, _sort });
-
-    const query = this.context.router.location.query
-    _sort && (query._sort = _sort)
-    _order && (query._order = _order.toUpperCase())
-
-    this.context.router.push({
-      ...this.context.router.location,
-      query
-    })
-
-    this.props.getData({ store: this.context.store, ...{ ...this.context.router, query} })
-
   }
 
   handleSelectAllClick = (event, checked) => {
@@ -84,35 +61,21 @@ class DataTableContainer extends Component {
 
   render() {
 
-    const { title, columnData, getData } = this.props
-    const {  _order, _sort, selected, data } = this.state
+    const { title, columnData, getData, count } = this.props
+    const { selected, data } = this.state
 
     return (
       <DataTable
-
-        title={title}
-        columnData={columnData}
-
-        _order={_order}
-        _sort={_sort}
-        selected={selected}
-        data={this.state.data}
-
-        {...{ getData }}
+        {...this.props}
+        {...{ selected, data }}
 
         handleSelectAllClick={this.handleSelectAllClick}
-        handleRequestSort={this.handleRequestSort}
         isSelected={this.isSelected}
         handleCheckboxClick={this.handleCheckboxClick}
         handleKeyDown={this.handleKeyDown}
       />
-    );
+    )
   }
-}
-
-DataTableContainer.contextTypes = {
-  router: PropTypes.object,
-  store: PropTypes.object
 }
 
 export default DataTableContainer

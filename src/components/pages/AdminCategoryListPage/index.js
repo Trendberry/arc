@@ -94,7 +94,7 @@ const AdminCategoryListPage = (props, context) => {
   return (
     <div>
       <Helmet title="Categories" />
-      <DataTable title="Categories" {...{ columnData, data, getData: getList }} />
+      <DataTable title="Categories" {...{ columnData, data, getData: getList, count }} />
     </div>
   )
 }

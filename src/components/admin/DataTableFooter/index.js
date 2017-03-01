@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
+import { Link } from 'react-router'
 import { createStyleSheet } from 'jss-theme-reactor'
+import classNames from 'classnames'
 import customPropTypes from 'material-ui/utils/customPropTypes'
 import Text from 'material-ui/Text'
 import Toolbar from 'material-ui/Toolbar'
@@ -27,7 +29,7 @@ const IconCaret = (props) => (
 
 const toolbarStyleSheet = createStyleSheet('DataTableFooter', (theme) => {
   return {
-    root: { paddingRight: 12 },
+    toolbar: { paddingRight: 12 },
     spacer: { flex: '1 1 100%' },
     pagination: {
       color: theme.palette.text.secondary,
@@ -55,63 +57,68 @@ const toolbarStyleSheet = createStyleSheet('DataTableFooter', (theme) => {
 
 const DataTableFooter = (props, context) => {
   const classes = context.styleManager.render(toolbarStyleSheet);
-  let classNames = classes.root;
 
-  const { paginationAnchorEl,
-    paginationOopen,
-    paginationOptions,
-    paginationSelectedIndex,
-    paginationHandleRequestClose,
-    paginationHandleClickListItem,
-    paginationHandleMenuItemClick
+  const {
+    startIndex, endIndex, anchorEl, open, selectedIndex, count,
+    limitOptions,
+
+    linkPrev,
+    linkNext,
+
+    onClickPrevPage,
+    onClickNextPage,
+    handleRequestClose,
+    handleRequestOpen,
+    handleMenuItemClick
   } = props
 
+  // console.log(linkPrev)
+
   return (
-    <Toolbar className={classNames}>
-      {/*<div className={classes.title}>
-        {numSelected > 0 ? (
-          <Text className={classes.subheading} type="subheading">{numSelected} selected</Text>
-        ) : (
-          <Text type="title">{title}</Text>
-        )}
-      </div>*/}
+    <Toolbar className={classes.toolbar}>
       <div className={classes.spacer} />
       <div className={classes.pagination}>
-        <Text className={`${classes.text} ${classes.label}`} type="caption">Rows per page</Text>
-        <IconButton onClick={paginationHandleClickListItem}>
-          <Text className={classes.pages} type="caption">{paginationOptions[paginationSelectedIndex]}</Text><IconCaret />
+        <Text className={classNames(classes.text, classes.label)} type="caption">Rows per page</Text>
+        <IconButton onClick={handleRequestOpen}>
+          <Text className={classes.pages} type="caption">{limitOptions[selectedIndex]}</Text><IconCaret />
         </IconButton>
-        <Text className={classes.text} type="caption">1-10 of 100</Text>
-        <IconButton><IconPrev /></IconButton>
-        <IconButton><IconNext /></IconButton>
+        <Text className={classes.text} type="caption">{startIndex}-{endIndex} of {count}</Text>
+        <IconButton component={Link} to="/admin" onClick={onClickPrevPage} disabled={startIndex === 1}><IconPrev /></IconButton>
+        <IconButton onClick={onClickNextPage} disabled={endIndex === count}><IconNext /></IconButton>
       </div>
       <Menu
-          anchorEl={paginationAnchorEl}
-          open={paginationOopen}
-          onRequestClose={paginationHandleRequestClose}
-        >
-          {paginationOptions.map((option, index) => {
-            return (
-              <MenuItem
-                key={option}
-                selected={index === paginationSelectedIndex}
-                onClick={(event) => paginationHandleMenuItemClick(event, index)}
-              >
-                {option}
-              </MenuItem>
-            );
-          })}
-        </Menu>
+        {...{ anchorEl, open }}
+        onRequestClose={handleRequestClose}
+      >
+        {limitOptions.map((option, index) => {
+          return (
+            <MenuItem
+              key={option}
+              selected={index === selectedIndex}
+              onClick={(event) => handleMenuItemClick(event, index)}
+            >
+              {option}
+            </MenuItem>
+          );
+        })}
+      </Menu>
     </Toolbar>
   );
 }
 
 DataTableFooter.propTypes = {
-  // paginationOptions: PropTypes.array.isRequired,
-};
+  anchorEl: PropTypes.object,
+  count: PropTypes.number,
+  endIndex: PropTypes.number,
+  limitOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
+  open: PropTypes.bool,
+  selectedIndex: PropTypes.number,
+  linkPrev: PropTypes.object,
+  linkNext: PropTypes.object,
+}
 
 DataTableFooter.contextTypes = {
   styleManager: customPropTypes.muiRequired,
-};
+}
 
 export default DataTableFooter

@@ -24,20 +24,16 @@ const DataTable = (props, context) => {
   const classes = context.styleManager.render(styleSheet)
 
   const {
-    data,
-    _order,
-    _sort,
-    selected,
-
     columnData,
+    data,
+    selected,
+    count,
     getData,
 
     handleSelectAllClick,
-    handleRequestSort,
     isSelected,
     handleCheckboxClick,
     handleKeyDown,
-
     title
 
   } = props
@@ -46,13 +42,7 @@ const DataTable = (props, context) => {
     <Paper elevation={2} className={classes.paper}>
       <DataTableToolbar title={title} numSelected={selected.length} />
       <Table>
-        <DataTableHead
-          _order={_order}
-          _sort={_sort}
-          onSelectAllClick={handleSelectAllClick}
-          onRequestSort={handleRequestSort}
-          columnData={columnData}
-        />
+        <DataTableHead { ...{ getData, columnData, handleSelectAllClick }} />
         <TableBody>
           {data.length > 0 && data.map((n) => {
             const isNSelected = isSelected(n._id);
@@ -88,7 +78,7 @@ const DataTable = (props, context) => {
           })}
         </TableBody>
       </Table>
-      <DataTableFooter { ...{ getData }} />
+      <DataTableFooter { ...{ getData, count }} />
     </Paper>
   );
 }

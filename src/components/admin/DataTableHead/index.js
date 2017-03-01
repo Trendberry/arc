@@ -12,15 +12,15 @@ const DataTableHead = (props) => {
     _order,
     _sort,
     columnData,
-    onSelectAllClick,
-    createSortHandler
+    handleSelectAllClick,
+    handleRequestSort
   } = props
 
   return (
     <TableHead>
       <TableRow>
         <TableCell style={{ paddingRight: 12, width: '1%' }} checkbox>
-          <Checkbox onChange={onSelectAllClick} />
+          <Checkbox onChange={handleSelectAllClick} />
         </TableCell>
 
         {columnData.map((column) => {
@@ -29,7 +29,7 @@ const DataTableHead = (props) => {
               <TableSortLabel
                 active={_sort === column.id}
                 direction={_order}
-                onClick={createSortHandler(column.id)}
+                onClick={(event) => handleRequestSort(event, column.id)}
               >
                 {column.label}
               </TableSortLabel>
@@ -48,9 +48,8 @@ DataTableHead.propTypes = {
     padding: PropTypes.bool,
     label: PropTypes.string
   })).isRequired,
-  createSortHandler: PropTypes.func.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
+  handleRequestSort: PropTypes.func.isRequired,
+  handleSelectAllClick: PropTypes.func.isRequired,
   _order: PropTypes.string.isRequired,
   _sort: PropTypes.string.isRequired,
 }
