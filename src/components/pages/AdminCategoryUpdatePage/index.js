@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import Helmet from 'react-helmet'
 
-import { PageTemplate, Header, Footer } from 'components'
 import { AdminCategoryForm } from 'containers'
 
 const AdminCategoryUpdatePage = ({ id }) => {
@@ -14,7 +13,7 @@ const AdminCategoryUpdatePage = ({ id }) => {
 }
 
 AdminCategoryUpdatePage.propTypes = {
-  id: PropTypes.any.isRequired
+  id: PropTypes.any.isRequired,
 }
 
 export default AdminCategoryUpdatePage

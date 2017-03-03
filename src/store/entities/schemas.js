@@ -2,7 +2,7 @@ import { schema } from 'normalizr'
 import { CATEGORY_LIST_SUCCESS, CATEGORY_CREATE_SUCCESS, CATEGORY_READ_SUCCESS, CATEGORY_UPDATE_SUCCESS } from '../category/actions'
 
 export const category = new schema.Entity('category', {}, {
-  idAttribute: '_id'
+  idAttribute: '_id',
 })
 
 export const actionsMeta = {

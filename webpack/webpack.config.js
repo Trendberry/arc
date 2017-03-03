@@ -67,7 +67,8 @@ if (DEBUG) {
       minChunks: isVendor,
     }),
     new WebpackMd5Hash(),
-    new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }, comments: false }),
     new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfig),
   ])
 }

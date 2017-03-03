@@ -1,36 +1,23 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import compose from 'recompose/compose';
 
-import { fromEntities, fromCategory, fromStatus } from 'store/selectors'
-import { categoryList, CATEGORY_LIST } from 'store/actions'
+import { fromEntities, fromCategory } from 'store/selectors'
+import { categoryList } from 'store/actions'
 import { AdminCategoryListPage } from 'components'
 
 class AdminCategoryListPageContainer extends Component {
-  constructor(props){
-    super(props)
-  }
-
   static get({ store, location: { query } }) {
-    query || (query = {})
-    query._limit || (query._limit = 15)
-    // query._order || (query._order = 'DESC')
-
-    console.log(query)
+    const params = { ...query }
+    if (!params._limit) params._limit = 15
 
     return new Promise((resolve, reject) => {
-      store.dispatch(categoryList.request(query, resolve, reject))
+      store.dispatch(categoryList.request(params, resolve, reject))
     })
   }
 
   static propTypes = {
     list: PropTypes.arrayOf(PropTypes.object).isRequired,
     count: PropTypes.number.isRequired,
-    limit: PropTypes.number
-  }
-
-  static defaultProps = {
-    limit: 15
   }
 
   render() {
@@ -40,10 +27,10 @@ class AdminCategoryListPageContainer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps)  => {
- return ({
+const mapStateToProps = (state) => {
+  return ({
     list: fromEntities.getList(state, 'category', fromCategory.getList(state)),
-    count: fromCategory.getCount(state)
+    count: fromCategory.getCount(state),
   })
 }
 

@@ -6,14 +6,14 @@ class App extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
-  componentDidMount(){
-    const jssStyles = document.getElementById('jss-server-side');
+  componentDidMount() {
+    const jssStyles = document.getElementById('jss-server-side')
     if (jssStyles && jssStyles.parentNode) {
-      jssStyles.parentNode.removeChild(jssStyles);
+      jssStyles.parentNode.removeChild(jssStyles)
     }
   }
 

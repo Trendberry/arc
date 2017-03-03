@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PropTypes } from 'react'
 import Helmet from 'react-helmet'
 import { createStyleSheet } from 'jss-theme-reactor'
 import customPropTypes from 'material-ui/utils/customPropTypes'
@@ -13,7 +13,6 @@ const styleSheet = createStyleSheet('Name', (theme) => {
       color: theme.palette.text.secondary,
       display: 'inline-block',
       verticalAlign: 'top',
-
       '&:after': {
         background: theme.palette.text.divider,
         borderRadius: '50%',
@@ -22,9 +21,8 @@ const styleSheet = createStyleSheet('Name', (theme) => {
         height: 8,
         marginRight: 8,
         verticalAlign: 'baseline',
-        width: 8
+        width: 8,
       },
-
       '& > span': {
         display: 'inline-block',
         maxWidth: 0,
@@ -35,7 +33,6 @@ const styleSheet = createStyleSheet('Name', (theme) => {
         verticalAlign: 'top',
       },
     },
-
     name: {
       display: 'inline-block',
       margin: -12,
@@ -44,25 +41,29 @@ const styleSheet = createStyleSheet('Name', (theme) => {
       '&:hover $ancestor span': {
         opacity: 1,
         marginRight: 8,
-        maxWidth: 150
-      }
+        maxWidth: 150,
+      },
     },
 
   }
 })
 
 const Name = (props, context) => {
+  const classes = context.styleManager.render(styleSheet)
+  const { listItem } = props
 
-    const classes = context.styleManager.render(styleSheet)
-    const { listItem } = props
-    return (
-      <span className={classes.name}>
-        {listItem.ancestors.map(ancestor => {
-          return <span key={ancestor._id} className={classes.ancestor}><span>{ancestor.name}</span></span>
-        })}
-        {listItem.name}
-      </span>
-    )
+  return (
+    <span className={classes.name}>
+      {listItem.ancestors.map(ancestor => {
+        return <span key={ancestor._id} className={classes.ancestor}><span>{ancestor.name}</span></span>
+      })}
+      {listItem.name}
+    </span>
+  )
+}
+
+Name.propTypes = {
+  listItem: PropTypes.object.isRequired,
 }
 
 Name.contextTypes = {
@@ -70,7 +71,7 @@ Name.contextTypes = {
   theme: customPropTypes.muiRequired,
 }
 
-const AdminCategoryListPage = (props, context) => {
+const AdminCategoryListPage = (props) => {
   const { list, count, getList } = props
 
   const columnData = [
@@ -81,13 +82,13 @@ const AdminCategoryListPage = (props, context) => {
   const data = []
 
   list.forEach(listItem => {
-    let { name, created } = listItem
+    const { name, created } = listItem
+    const date = new Date(created)
 
-    let date = new Date(created)
     data.push({
       ...listItem,
       name: <Name listItem={listItem} name={name} />,
-      created: dateFormat(date, 'hh:MM TT mm/dd/yyyy')
+      created: dateFormat(date, 'hh:MM TT mm/dd/yyyy'),
     })
   })
 
@@ -97,6 +98,12 @@ const AdminCategoryListPage = (props, context) => {
       <DataTable title="Categories" {...{ columnData, data, getData: getList, count }} />
     </div>
   )
+}
+
+AdminCategoryListPage.propTypes = {
+  count: PropTypes.number,
+  getList: PropTypes.func.isRequired,
+  list: PropTypes.array,
 }
 
 AdminCategoryListPage.contextTypes = {

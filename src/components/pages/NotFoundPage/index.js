@@ -23,7 +23,7 @@ const styles = createStyleSheet('NotFoundPage', (theme) => ({
     textAlign: 'center',
     '& h1': {
       fontSize: '32px',
-      marginTop: '32px'
+      marginTop: '32px',
     },
   },
   booWrapper: {
@@ -33,7 +33,7 @@ const styles = createStyleSheet('NotFoundPage', (theme) => ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     paddingTop: '64px',
-    paddingBottom: '64px'
+    paddingBottom: '64px',
   },
   boo: {
     width: '160px',
@@ -61,7 +61,7 @@ const styles = createStyleSheet('NotFoundPage', (theme) => ({
       backgroundSize: '32px 32px',
       backgroundPosition: 'left bottom',
       backgroundImage: `linear-gradient(-45deg, ${theme.palette.background.default} 16px, transparent 0),
-                        linear-gradient(45deg, ${theme.palette.background.default} 16px, transparent 0)`
+                        linear-gradient(45deg, ${theme.palette.background.default} 16px, transparent 0)`,
     },
   },
   booFace: {
@@ -84,10 +84,10 @@ const styles = createStyleSheet('NotFoundPage', (theme) => ({
       width: 6,
     },
     '&:before': {
-      left: -24
+      left: -24,
     },
     '&:after': {
-      right: -24
+      right: -24,
     },
   },
   booShadow: {
@@ -99,11 +99,10 @@ const styles = createStyleSheet('NotFoundPage', (theme) => ({
     marginRight: 'auto',
     marginTop: 40,
     width: 128,
-  }
+  },
 }))
 
 const NotFoundPage = (props, context) => {
-
   const classes = context.styleManager.render(styles)
 
   return (
@@ -111,16 +110,11 @@ const NotFoundPage = (props, context) => {
       <div className={classes.container}>
         <div className={classes.booWrapper}>
           <div className={classes.boo}>
-            <div className={classes.booFace}></div>
+            <div className={classes.booFace} />
           </div>
-          <div className={classes.booShadow}></div>
-
+          <div className={classes.booShadow} />
           <h1>Whoops!</h1>
-          <p>
-            We couldn't find the page you
-            <br />
-            were looking for.
-          </p>
+          <p>We couldn&apos;t find the page you<br />were looking for.</p>
         </div>
       </div>
     </div>

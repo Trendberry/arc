@@ -4,12 +4,12 @@ import classNames from 'classnames'
 
 import customPropTypes from 'material-ui/utils/customPropTypes'
 import IconButton from 'material-ui/IconButton'
-import Input from 'material-ui/Input/Input';
+import Input from 'material-ui/Input/Input'
 import SvgIcon from 'material-ui/SvgIcon'
 
 const IconSearch = (props) => (
   <SvgIcon {...props}>
-     <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+    <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
   </SvgIcon>
 )
 
@@ -19,7 +19,7 @@ const IconClose = (props) => (
   </SvgIcon>
 )
 
-const styleSheet  = createStyleSheet('SearchWidget', (theme) => {
+const styleSheet = createStyleSheet('SearchWidget', (theme) => {
   return {
     root: {
       display: 'inline-flex',
@@ -28,7 +28,7 @@ const styleSheet  = createStyleSheet('SearchWidget', (theme) => {
       // flexWrap: 'nowrap',
       // justifyContent: 'flex-start',
       // alignContent: 'stretch',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     field: {
       overflow: 'hidden',
@@ -37,10 +37,10 @@ const styleSheet  = createStyleSheet('SearchWidget', (theme) => {
       width: 0,
     },
     open: {
-      width: 240
+      width: 240,
     },
     input: {
-      width: 240
+      width: 240,
     },
     button: {
       verticalAlign: 'middle',
@@ -48,18 +48,18 @@ const styleSheet  = createStyleSheet('SearchWidget', (theme) => {
     close: {
       display: 'none',
       marginLeft: -32,
-      animation: `search-widget-appear ${theme.transitions.duration.short}ms ${theme.transitions.easing.easeInOut}`
+      animation: `search-widget-appear ${theme.transitions.duration.short}ms ${theme.transitions.easing.easeInOut}`,
     },
     visible: {
       display: 'inline-flex',
     },
     '@keyframes search-widget-appear': {
       '0%': {
-        opacity: 0
+        opacity: 0,
       },
       '100%': {
-        opacity: 1
-      }
+        opacity: 1,
+      },
     },
   }
 })
@@ -88,18 +88,19 @@ SearchWidget.propTypes = {
   open: PropTypes.bool,
   onRequestOpen: PropTypes.func.isRequired,
   onRequestClose: PropTypes.func.isRequired,
-  initialValue: PropTypes.string
+  onInputBlur: PropTypes.func.isRequired,
+  searchInput: PropTypes.func.isRequired,
+  initialValue: PropTypes.string,
 }
 
 SearchWidget.defultProps = {
   open: false,
-  initialValue: ''
+  initialValue: '',
 }
 
 SearchWidget.contextTypes = {
   styleManager: customPropTypes.muiRequired,
   theme: customPropTypes.muiRequired,
-};
-
+}
 
 export default SearchWidget

@@ -1,12 +1,12 @@
 import React from 'react'
-import { Route, IndexRoute } from 'react-router'
+import Route from 'react-router/lib/Route'
+import IndexRoute from 'react-router/lib/IndexRoute'
 
 import App from 'components/App'
 import { HomePage } from 'components'
 import { AdminPageTemplate, AdminCategoryListPage, AdminCategoryCreatePage, AdminCategoryUpdatePage, NotFoundPage } from 'containers'
 
 const getRoutes = (store) => {
-
   const fetchData = (nextState, replace, callback) => {
     const Component = nextState.routes[nextState.routes.length - 1].component
     const canUseDOM = !!(
@@ -15,11 +15,9 @@ const getRoutes = (store) => {
       window.document.createElement
     )
 
-    if(typeof Component.get === 'function' && canUseDOM) {
+    if (typeof Component.get === 'function' && canUseDOM) {
       Component.get({ store, ...nextState })
-        .then(result => {
-          callback()
-        })
+        .then(() => callback())
         .catch(error => {
           callback(error)
         })

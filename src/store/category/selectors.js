@@ -1,7 +1,7 @@
 export const initialState = {
   list: [],
-  count: null
+  count: 0,
 }
 
 export const getList = (state = initialState) => state.list || []
-export const getCount = (state = initialState) => state.count || null
+export const getCount = (state = initialState) => state.count || 0

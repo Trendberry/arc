@@ -15,13 +15,7 @@ const IconAdd = (props) => (
   </SvgIcon>
 )
 
-const IconFilter = (props) => (
-  <SvgIcon {...props}>
-    <path d="M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z" />
-  </SvgIcon>
-)
-
-const styleSheet  = createStyleSheet('DataTableToolbar', (theme) => {
+const styleSheet = createStyleSheet('DataTableToolbar', (theme) => {
   return {
     root: { paddingRight: 12 },
     highlight: (
@@ -41,19 +35,19 @@ const styleSheet  = createStyleSheet('DataTableToolbar', (theme) => {
       flex: '0 0 auto',
       color: theme.palette.text.secondary,
       marginRight: -10,
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
     },
     title: { flex: '0 0 auto' },
   }
 })
 
 const DataTableToolbar = (props, context) => {
-  const { numSelected, title } = props;
-  const classes = context.styleManager.render(styleSheet);
-  let classNames = classes.root;
+  const { numSelected, title } = props
+  const classes = context.styleManager.render(styleSheet)
+  let classNames = classes.root
 
   if (numSelected > 0) {
-    classNames += ` ${classes.highlight}`;
+    classNames += ` ${classes.highlight}`
   }
 
   return (
@@ -65,32 +59,30 @@ const DataTableToolbar = (props, context) => {
           <Text type="title">{title}</Text>
         )}
       </div>
-
       <div className={classes.spacer} />
-        {numSelected > 0 ? (
-          <div className={classes.actions}>
-            <IconButton>delete</IconButton>
-          </div>
-        ) : (
-          <div className={classes.actions}>
-            <SearchWidget />
-            {/*<IconButton>filter_list</IconButton>*/}
-            <IconButton>
-              <IconAdd />
-            </IconButton>
-          </div>
-        )}
+      {numSelected > 0 ? (
+        <div className={classes.actions}>
+          <IconButton>delete</IconButton>
+        </div>
+      ) : (
+        <div className={classes.actions}>
+          <SearchWidget />
+          <IconButton>
+            <IconAdd />
+          </IconButton>
+        </div>
+      )}
     </Toolbar>
-  );
+  )
 }
 
 DataTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-};
+}
 
 DataTableToolbar.contextTypes = {
   styleManager: customPropTypes.muiRequired,
-};
+}
 
 export default DataTableToolbar

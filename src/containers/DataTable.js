@@ -1,9 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { createStyleSheet } from 'jss-theme-reactor';
-import keycode from 'keycode';
-import customPropTypes from 'material-ui/utils/customPropTypes';
-
-import { categoryList } from 'store/actions'
+import React, { Component, PropTypes } from 'react'
+import keycode from 'keycode'
 
 import { DataTable } from 'components'
 
@@ -13,55 +9,53 @@ class DataTableContainer extends Component {
 
     this.state = {
       selected: [],
-      data: props.data
+      data: props.data,
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ data: nextProps.data })
   }
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      return this.setState({ selected: this.state.data.map((n) => n._id) });
+      return this.setState({ selected: this.state.data.map((n) => n._id) })
     }
-    return this.setState({ selected: [] });
+    return this.setState({ selected: [] })
   }
 
   handleKeyDown = (event, _id) => {
     if (keycode(event) === 'space') {
-      this.handleCheckboxClick(event, _id);
+      this.handleCheckboxClick(event, _id)
     }
   }
 
   handleCheckboxClick = (event, _id) => {
-    const { selected } = this.state;
-    const selectedIndex = selected.indexOf(_id);
-    let newSelected = [];
+    const { selected } = this.state
+    const selectedIndex = selected.indexOf(_id)
+    let newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, _id);
+      newSelected = newSelected.concat(selected, _id)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
-      );
+      )
     }
 
-    this.setState({ selected: newSelected });
+    this.setState({ selected: newSelected })
   }
 
   isSelected = (_id) => {
-    return this.state.selected.indexOf(_id) !== -1;
-  }
-
-  componentWillReceiveProps(nextProps){
-    this.setState({ data: nextProps.data })
+    return this.state.selected.indexOf(_id) !== -1
   }
 
   render() {
-
-    const { title, columnData, getData, count } = this.props
     const { selected, data } = this.state
 
     return (
@@ -76,6 +70,14 @@ class DataTableContainer extends Component {
       />
     )
   }
+}
+
+DataTableContainer.propTypes = {
+  columnData: PropTypes.array.isRequired,
+  count: PropTypes.number,
+  data: PropTypes.array.isRequired,
+  getData: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 export default DataTableContainer

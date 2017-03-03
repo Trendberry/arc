@@ -8,7 +8,7 @@ class AdminCategoryCreatePageContainer extends Component {
   static post({ req, store }) {
     return Promise.all([
       this.get({ store }),
-      store.dispatch(submit(config, req.body))
+      store.dispatch(submit(config, req.body)),
     ])
   }
 

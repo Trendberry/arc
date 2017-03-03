@@ -1,16 +1,14 @@
 import React, { PropTypes } from 'react'
-import { createStyleSheet } from 'jss-theme-reactor';
-import customPropTypes from 'material-ui/utils/customPropTypes';
-import Text from 'material-ui/Text';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui/svg-icons/menu';
-import LightbulbOutlineIcon from 'material-ui/svg-icons/lightbulb-outline';
+import { createStyleSheet } from 'jss-theme-reactor'
+import customPropTypes from 'material-ui/utils/customPropTypes'
+import Text from 'material-ui/Text'
+import AppBar from 'material-ui/AppBar'
+import Toolbar from 'material-ui/Toolbar'
+import IconButton from 'material-ui/IconButton'
+import MenuIcon from 'material-ui/svg-icons/menu'
+import LightbulbOutlineIcon from 'material-ui/svg-icons/lightbulb-outline'
 
 import { AppDrawer, AppContent } from 'components'
-// import { AppContent } from 'containers'
-import { CircularProgress } from 'material-ui/Progress';
 
 const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
   return {
@@ -30,7 +28,7 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
         overflowX: 'hidden',
         WebkitFontSmoothing: 'antialiased', // Antialiasing.
         MozOsxFontSmoothing: 'grayscale', // Antialiasing.
-        overflowY: 'scroll'
+        overflowY: 'scroll',
       },
       a: {
         color: theme.palette.accent.A400,
@@ -67,7 +65,7 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
       },
 
       '#nprogress': {
-        pointerEvents: 'none'
+        pointerEvents: 'none',
       },
       '#nprogress .bar': {
         background: theme.palette.accent.A100,
@@ -76,7 +74,7 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
         top: 0,
         left: 0,
         width: '100%',
-        height: 2
+        height: 2,
       },
       '#nprogress .peg': {
         display: 'block',
@@ -86,40 +84,39 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
         height: '100%',
         boxShadow: `0 0 10px ${theme.palette.accent.A100}, 0 0 5px ${theme.palette.accent.A100}`,
         opacity: 1,
-        transform: 'rotate(3deg) translate(0px, -4px)'
+        transform: 'rotate(3deg) translate(0px, -4px)',
       },
       '#nprogress .spinner': {
-        'display': 'block',
-        'position': 'fixed',
-        'z-index': 9999,
-        'top': '15px',
-        'right': '15px'
+        display: 'block',
+        position: 'fixed',
+        zIndex: 9999,
+        top: 15,
+        right: 15,
       },
       '#nprogress .spinner-icon': {
-        'width': '18px',
-        'height': '18px',
-        'box-sizing': 'border-box',
-        'border': 'solid 2px transparent',
-        'border-top-color': '#29d',
-        'border-left-color': '#29d',
-        'border-radius': '50%',
-        '-webkit-animation': 'nprogress-spinner 400ms linear infinite',
-        'animation': 'nprogress-spinner 400ms linear infinite'
+        width: 18,
+        height: 18,
+        boxSizing: 'border-box',
+        border: 'solid 2px transparent',
+        borderTopColor: '#29d',
+        borderLeftColor: '#29d',
+        borderRadius: '50%',
+        animation: 'nprogress-spinner 400ms linear infinite',
       },
       '.nprogress-custom-parent': {
-        'overflow': 'hidden',
-        'position': 'relative'
+        overflow: 'hidden',
+        position: 'relative',
       },
       '.nprogress-custom-parent #nprogress .spinner, .nprogress-custom-parent #nprogress .bar': {
-        'position': 'absolute'
+        position: 'absolute',
       },
       '@keyframes nprogress-spinner': {
         '0%': {
-          'transform': 'rotate(0deg)'
+          transform: 'rotate(0deg)',
         },
         '100%': {
-          'transform': 'rotate(360deg)'
-        }
+          transform: 'rotate(360deg)',
+        },
       },
 
       // '.example2-enter': {
@@ -170,7 +167,7 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
     },
     [theme.breakpoints.up('lg')]: {
       drawer: {
-        width: '250px',
+        width: 250,
       },
       appBarShift: {
         // width: 'calc(100% - 250px)',
@@ -179,10 +176,10 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
         // display: 'none',
       },
     },
-  };
-});
+  }
+})
 
-const AdminPageTemplate = (props, context) =>  {
+const AdminPageTemplate = (props, context) => {
   const {
     handleDrawerToggle,
     handleToggleShade,
@@ -190,22 +187,20 @@ const AdminPageTemplate = (props, context) =>  {
     children,
     drawerDocked,
     drawerOpen,
-    location,
   } = props
 
-
-  const classes = context.styleManager.render(styleSheet);
+  const classes = context.styleManager.render(styleSheet)
   const title = ''
 
-  let navIconClassName = classes.navIcon;
-  let appBarClassName = classes.appBar;
+  let navIconClassName = classes.navIcon
+  let appBarClassName = classes.appBar
 
   if (title === null) { // home route, don't shift app bar or dock drawer
-    // drawerDocked = false;
-    appBarClassName += ` ${classes.appBarHome}`;
+    // drawerDocked = false
+    appBarClassName += ` ${classes.appBarHome}`
   } else {
-    navIconClassName += ` ${classes.navIconHide}`;
-    appBarClassName += ` ${classes.appBarShift}`;
+    navIconClassName += ` ${classes.navIconHide}`
+    appBarClassName += ` ${classes.appBarShift}`
   }
 
   return (
@@ -232,11 +227,20 @@ const AdminPageTemplate = (props, context) =>  {
         onRequestClose={handleDrawerClose}
         open={drawerOpen}
       />
-      <AppContent location={location}>
+      <AppContent>
         {children}
       </AppContent>
     </div>
   )
+}
+
+AdminPageTemplate.propTypes = {
+  handleDrawerToggle: PropTypes.func.isRequired,
+  handleToggleShade: PropTypes.func.isRequired,
+  handleDrawerClose: PropTypes.func.isRequired,
+  children: PropTypes.element,
+  drawerDocked: PropTypes.bool,
+  drawerOpen: PropTypes.bool,
 }
 
 AdminPageTemplate.contextTypes = {

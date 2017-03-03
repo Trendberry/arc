@@ -28,12 +28,6 @@ const root = document.getElementById('app')
 
 const renderApp = () => {
   match({ history, routes: routes(store), location }, (error, redirectLocation, renderProps) => {
-
-    console.log('-------------------client-------------------')
-    console.log(location)
-    console.log(renderProps.location)
-    console.log('-------------------client-------------------')
-
     render(
       <AppContainer>
         <MuiThemeProvider styleManager={styleManager} theme={theme}>

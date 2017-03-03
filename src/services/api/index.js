@@ -36,11 +36,21 @@ export const parseEndpoint = (endpoint, params) => {
 }
 
 const api = {}
+let headers
 
 api.request = (endpoint, { params, ...settings } = {}) =>
   fetch(parseEndpoint(endpoint, params), parseSettings(settings))
     .then(checkStatus)
-    .then(parseJSON)
+    .then(response => {
+      headers = response.headers
+      return response.json()
+    })
+    .then(json => {
+      return {
+        headers,
+        data: json,
+      }
+    })
 
 ;['delete', 'get'].forEach((method) => {
   api[method] = (endpoint, settings) => api.request(endpoint, { method, ...settings })

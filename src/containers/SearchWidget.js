@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import { SearchWidget } from 'components'
 
 class SearchWidgetContainer extends Component {
@@ -8,7 +7,7 @@ class SearchWidgetContainer extends Component {
     open: false,
   }
 
-  handleRequestOpen = (event) => {
+  handleRequestOpen = () => {
     this.state.open === false && this.searchInput.focus()
     this.setState({ open: true })
   }
@@ -24,16 +23,18 @@ class SearchWidgetContainer extends Component {
   }
 
   render() {
-    return <SearchWidget
-    {...this.props}
-    {...{
-      open: this.state.open,
-      onRequestOpen: this.handleRequestOpen,
-      onRequestClose: this.handleRequestClose,
-      onInputBlur: this.handleInputBlur
-    }}
-    searchInput={(input) => { this.searchInput = input }}
-    />
+    return (
+      <SearchWidget
+        {...this.props}
+        {...{
+          open: this.state.open,
+          onRequestOpen: this.handleRequestOpen,
+          onRequestClose: this.handleRequestClose,
+          onInputBlur: this.handleInputBlur,
+        }}
+        searchInput={(input) => { this.searchInput = input }}
+      />
+    )
   }
 }
 

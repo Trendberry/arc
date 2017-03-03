@@ -22,29 +22,29 @@ export const CATEGORY_DELETE_FAILURE = 'CATEGORY_DELETE_FAILURE'
 export const categoryList = {
   request: (params, resolve, reject) => ({ type: CATEGORY_LIST_REQUEST, params, resolve, reject }),
   success: (list, count) => ({ type: CATEGORY_LIST_SUCCESS, list, count }),
-  failure: (error) => ({ type: CATEGORY_LIST_FAILURE, error })
+  failure: (error) => ({ type: CATEGORY_LIST_FAILURE, error }),
 }
 
 export const categoryCreate = {
   request: (data, resolve, reject) => ({ type: CATEGORY_CREATE_REQUEST, data, resolve, reject }),
   success: (data) => ({ type: CATEGORY_CREATE_SUCCESS, data }),
-  failure: (error) => ({ type: CATEGORY_CREATE_FAILURE, error })
+  failure: (error) => ({ type: CATEGORY_CREATE_FAILURE, error }),
 }
 
 export const categoryRead = {
   request: (id, resolve, reject) => ({ type: CATEGORY_READ_REQUEST, id, resolve, reject }),
   success: (data) => ({ type: CATEGORY_READ_SUCCESS, data }),
-  failure: (error) => ({ type: CATEGORY_READ_FAILURE, error })
+  failure: (error) => ({ type: CATEGORY_READ_FAILURE, error }),
 }
 
 export const categoryUpdate = {
   request: (data, newData, resolve, reject) => ({ type: CATEGORY_UPDATE_REQUEST, data, newData, resolve, reject }),
   success: (data, newData) => ({ type: CATEGORY_UPDATE_SUCCESS, data, newData }),
-  failure: (error) => ({ type: CATEGORY_UPDATE_FAILURE, error })
+  failure: (error) => ({ type: CATEGORY_UPDATE_FAILURE, error }),
 }
 
 export const categoryDelete = {
   request: (id, resolve, reject) => ({ type: CATEGORY_DELETE_REQUEST, id, resolve, reject }),
   success: (data) => ({ type: CATEGORY_DELETE_SUCCESS, data }),
-  failure: (error) => ({ type: CATEGORY_DELETE_FAILURE, error })
+  failure: (error) => ({ type: CATEGORY_DELETE_FAILURE, error }),
 }

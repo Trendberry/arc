@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Link } from 'react-router'
+import Link from 'react-router/lib/Link'
 import { createStyleSheet } from 'jss-theme-reactor'
 import classNames from 'classnames'
 import customPropTypes from 'material-ui/utils/customPropTypes'
@@ -36,7 +36,7 @@ const toolbarStyleSheet = createStyleSheet('DataTableFooter', (theme) => {
       marginRight: -10,
       whiteSpace: 'nowrap',
       '& > *': {
-        verticalAlign: 'top'
+        verticalAlign: 'top',
       },
     },
     text: {
@@ -56,23 +56,21 @@ const toolbarStyleSheet = createStyleSheet('DataTableFooter', (theme) => {
 })
 
 const DataTableFooter = (props, context) => {
-  const classes = context.styleManager.render(toolbarStyleSheet);
+  const classes = context.styleManager.render(toolbarStyleSheet)
 
   const {
     startIndex, endIndex, anchorEl, open, selectedIndex, count,
+    hasPrev,
+    hasNext,
+    prevPageLink,
+    nextPageLink,
     limitOptions,
-
-    linkPrev,
-    linkNext,
-
     onClickPrevPage,
     onClickNextPage,
     handleRequestClose,
     handleRequestOpen,
-    handleMenuItemClick
+    handleMenuItemClick,
   } = props
-
-  // console.log(linkPrev)
 
   return (
     <Toolbar className={classes.toolbar}>
@@ -83,8 +81,8 @@ const DataTableFooter = (props, context) => {
           <Text className={classes.pages} type="caption">{limitOptions[selectedIndex]}</Text><IconCaret />
         </IconButton>
         <Text className={classes.text} type="caption">{startIndex}-{endIndex} of {count}</Text>
-        <IconButton component={Link} to="/admin" onClick={onClickPrevPage} disabled={startIndex === 1}><IconPrev /></IconButton>
-        <IconButton onClick={onClickNextPage} disabled={endIndex === count}><IconNext /></IconButton>
+        <IconButton component={hasPrev ? Link : 'span'} to={prevPageLink} onClick={hasPrev ? onClickPrevPage : () => false} disabled={startIndex === 1}><IconPrev /></IconButton>
+        <IconButton component={hasNext ? Link : 'span'} to={nextPageLink} onClick={hasNext ? onClickNextPage : () => false} disabled={endIndex === count}><IconNext /></IconButton>
       </div>
       <Menu
         {...{ anchorEl, open }}
@@ -99,22 +97,31 @@ const DataTableFooter = (props, context) => {
             >
               {option}
             </MenuItem>
-          );
+          )
         })}
       </Menu>
     </Toolbar>
-  );
+  )
 }
 
 DataTableFooter.propTypes = {
+  hasPrev: PropTypes.bool.isRequired,
+  hasNext: PropTypes.bool.isRequired,
+  prevPageLink: PropTypes.any.isRequired,
+  nextPageLink: PropTypes.any.isRequired,
+  onClickPrevPage: PropTypes.func.isRequired,
+  onClickNextPage: PropTypes.func.isRequired,
+  handleRequestClose: PropTypes.func.isRequired,
+  handleRequestOpen: PropTypes.func.isRequired,
+  handleMenuItemClick: PropTypes.func.isRequired,
   anchorEl: PropTypes.object,
   count: PropTypes.number,
+  startIndex: PropTypes.number,
   endIndex: PropTypes.number,
   limitOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
   open: PropTypes.bool,
   selectedIndex: PropTypes.number,
-  linkPrev: PropTypes.object,
-  linkNext: PropTypes.object,
+  location: PropTypes.object,
 }
 
 DataTableFooter.contextTypes = {

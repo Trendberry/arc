@@ -1,27 +1,18 @@
 import React, { Component, PropTypes } from 'react'
-
 import { DataTableFooter } from 'components'
-
-import { categoryList } from 'store/actions'
 
 class DataTableFooterContainer extends Component {
   constructor(props, context) {
     super(props, context)
 
-    const { count } = props
     const { router } = context
     const { _page, _limit } = router.location.query
     const page = _page || 1
-    const limit = _limit || 15
+    const limit = parseInt(_limit, 10) || props.limitOptions[0]
 
-    const startIndex = limit * (page - 1) + 1
-    const endIndex = (count >= limit * page) ? (limit * page) : count
-
-    const prev = router.location
-    const next = router.location
-
-    (page > 1) && (linkPrev.query._page = page - 1)
-    (endIndex < count) && (linkNext.query._page = page + 1)
+    const params = { ...router.location.query }
+    params._page === 1 && delete params._page
+    params._limit === props.limitOptions[0] && delete params._limit
 
     this.state = {
       _page: page,
@@ -29,14 +20,27 @@ class DataTableFooterContainer extends Component {
       anchorEl: undefined,
       open: false,
       selectedIndex: 0,
-      linkPrev: {},
-      linkNext: {}
+      location: {
+        pathname: router.location.pathname,
+        query: params,
+      },
     }
+  }
+
+  componentWillReceiveProps() {
+    const { pathname, query } = this.context.router.location
+
+    this.setState({
+      location: {
+        pathname,
+        query,
+      },
+    })
   }
 
   handleRequestOpen = (event) => this.setState({
     open: true,
-    anchorEl: event.currentTarget
+    anchorEl: event.currentTarget,
   })
 
   handleRequestClose = () => this.setState({ open: false })
@@ -44,33 +48,18 @@ class DataTableFooterContainer extends Component {
   handlePagination = (query) => {
     const { store, router } = this.context
 
-    this.setState({ ...query })
-
     this.props.getData({ store, ...{ ...router, query } })
 
-    const params = Object.assign({}, query)
+    const params = { ...query }
     params._page === 1 && delete params._page
-    params._limit === 15 && delete params._limit
+    params._limit === this.props.limitOptions[0] && delete params._limit
 
     const location = {
-      ...router.location,
-      query: params
+      pathname: router.location.pathname,
+      query: params,
     }
 
-    // const linkPrev = {
-    //   ...location,
-    //   ...{ query: { page: (_page - 1) }}
-    // }
-
-    // const linkNext = {
-    //   ...location,
-    //   ...{ query: { page: (_page + 1) }}
-    // }
-
-    // this.setState({
-    //   linkPrev,
-    //   linkNext
-    // })
+    this.setState({ ...query, location })
 
     router.push(location)
   }
@@ -85,58 +74,81 @@ class DataTableFooterContainer extends Component {
       open: false,
     })
 
-    this.handleRequest(query)
+    this.handlePagination(query)
   }
 
   handleClickPrevPage = () => {
     const query = this.context.router.location.query || {}
-    const { _page, _limit } = this.state
-    query._page = parseInt(_page) - 1
+    const { _page } = this.state
+    query._page = parseInt(_page, 10) - 1
 
     this.handlePagination(query)
   }
 
   handleClickNextPage = () => {
     const query = this.context.router.location.query || {}
-    const { _page, _limit } = this.state
-    query._page = parseInt(_page) + 1
+    const { _page } = this.state
+    query._page = parseInt(_page, 10) + 1
 
     this.handlePagination(query)
   }
 
   render() {
-    const { _limit, _page, anchorEl, open, selectedIndex, linkPrev, linkNext } = this.state
+    const { _limit, _page, anchorEl, open, selectedIndex, location } = this.state
     const { count } = this.props
 
-    const startIndex = _limit * (_page - 1) + 1
+    const startIndex = (_limit * (_page - 1)) + 1
     const endIndex = (count >= _limit * _page) ? (_limit * _page) : count
 
-    return <DataTableFooter
-      {...this.props}
-      {...{ count, startIndex, endIndex, anchorEl, open, selectedIndex, linkPrev, linkNext }}
+    const hasPrev = startIndex > 1
+    const hasNext = endIndex < count
 
-      onClickPrevPage={this.handleClickPrevPage}
-      onClickNextPage={this.handleClickNextPage}
+    const prevPageLink = hasPrev && {
+      ...location,
+      query: {
+        ...location.query,
+        _page: parseInt(location.query._page || 1, 10) - 1,
+      },
+    }
+    prevPageLink.query && prevPageLink.query._page === 1 && delete prevPageLink.query._page
 
-      handleRequestClose={this.handleRequestClose}
-      handleRequestOpen={this.handleRequestOpen}
-      handleMenuItemClick={this.handleMenuItemClick}
+    const nextPageLink = hasNext && {
+      ...location,
+      query: {
+        ...location.query,
+        _page: parseInt(location.query._page || 1, 10) + 1,
+      },
+    }
 
-    />
+    return (
+      <DataTableFooter
+        {...this.props}
+        {...{ count, startIndex, endIndex, anchorEl, open, selectedIndex, hasPrev, hasNext, prevPageLink, nextPageLink }}
+
+        onClickPrevPage={this.handleClickPrevPage}
+        onClickNextPage={this.handleClickNextPage}
+
+        handleRequestClose={this.handleRequestClose}
+        handleRequestOpen={this.handleRequestOpen}
+        handleMenuItemClick={this.handleMenuItemClick}
+      />
+    )
   }
 }
 
 DataTableFooterContainer.propTypes = {
-  limitOptions: PropTypes.arrayOf(PropTypes.number)
+  count: PropTypes.number.isRequired,
+  getData: PropTypes.func.isRequired,
+  limitOptions: PropTypes.arrayOf(PropTypes.number),
 }
 
 DataTableFooterContainer.defaultProps = {
-  limitOptions: [15, 30, 45]
+  limitOptions: [15, 30, 45],
 }
 
 DataTableFooterContainer.contextTypes = {
-  router: PropTypes.object,
-  store: PropTypes.object
+  router: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired,
 }
 
 export default DataTableFooterContainer

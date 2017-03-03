@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
-import classNames from 'classnames';
-import { createStyleSheet } from 'jss-theme-reactor';
-import customPropTypes from 'material-ui/utils/customPropTypes';
+import React, { PropTypes } from 'react'
+import classNames from 'classnames'
+import { createStyleSheet } from 'jss-theme-reactor'
+import customPropTypes from 'material-ui/utils/customPropTypes'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 export const styleSheet = createStyleSheet('AppContent', (theme) => {
@@ -18,35 +18,32 @@ export const styleSheet = createStyleSheet('AppContent', (theme) => {
     //     maxWidth: 900,
     //   },
     // },
-  };
-});
+  }
+})
 
 const AppContent = (props, context) => {
-  const { className, children, location, loading } = props;
-  const classes = context.styleManager.render(styleSheet);
-
-  // let loading2 = loading || true
+  const { className, children } = props
+  const classes = context.styleManager.render(styleSheet)
 
   return (
     <ReactCSSTransitionGroup
       className={classNames(classes.content, className)}
       component="div"
-      transitionEnterTimeout={loading === true ? 10000 : 500}
-      transitionLeaveTimeout={loading === true ? 10000 : 275}
-
-       transitionName={{
+      transitionEnterTimeout={500}
+      transitionLeaveTimeout={275}
+      transitionName={{
         enter: 'enter',
-        enterActive: `enter-active${loading === true ? ' loading' : ''}`,
+        enterActive: 'enter-active',
         leave: 'leave',
-        leaveActive: `leave-active${loading === true ? ' loading' : ''}`,
+        leaveActive: 'leave-active',
         appear: 'appear',
-        appearActive: 'appear-active'
+        appearActive: 'appear-active',
       }}
     >
-      {/*<div key={location.pathname}>{children}</div>*/}
-      {/*{loading ? <CircularProgress /> : <div key={location.pathname}>{children}</div>}*/}
+      {/* <div key={location.pathname}>{children}</div> */}
+      {/* {loading ? <CircularProgress /> : <div key={location.pathname}>{children}</div>} */}
       {React.cloneElement(children, {
-        key: location.pathname
+        key: context.router.location.pathname,
       })}
     </ReactCSSTransitionGroup>
   )
@@ -58,6 +55,7 @@ AppContent.propTypes = {
 }
 
 AppContent.contextTypes = {
+  router: PropTypes.object.isRequired,
   styleManager: customPropTypes.muiRequired,
 }
 

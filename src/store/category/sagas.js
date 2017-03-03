@@ -2,7 +2,7 @@ import { take, put, call, fork } from 'redux-saga/effects'
 import api from 'services/api'
 import {
   categoryList, categoryCreate, categoryRead, categoryUpdate,
-  CATEGORY_LIST_REQUEST, CATEGORY_CREATE_REQUEST, CATEGORY_READ_REQUEST, CATEGORY_UPDATE_REQUEST
+  CATEGORY_LIST_REQUEST, CATEGORY_CREATE_REQUEST, CATEGORY_READ_REQUEST, CATEGORY_UPDATE_REQUEST,
 } from './actions'
 
 export function* createPost(newData) {
@@ -33,11 +33,9 @@ export function* updatePost(oldData, newData) {
 }
 
 export function* listCategories(params) {
-
   try {
     const { data, headers } = yield call(api.get, '/categories', { params })
-    // console.log(headers['x-total-count'])
-    yield put(categoryList.success(data, parseInt(headers['x-total-count'])))
+    yield put(categoryList.success(data, parseInt(headers.get('x-total-count'), 10)))
   } catch (e) {
     yield put(categoryList.failure(e))
   }

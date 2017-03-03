@@ -10,7 +10,7 @@ import { AdminCategoryForm } from 'components'
 class AdminCategoryFormContainer extends Component {
   static propTypes = {
     id: PropTypes.any,
-    request: PropTypes.func.isRequired
+    request: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -34,28 +34,27 @@ const onSubmit = (data, dispatch, state) => new Promise((resolve, reject) => {
 
 const validate = createValidator({
   title: [required],
-  body: [required]
+  body: [required],
 })
 
 const mapStateToProps = (state, { id }) => {
-
   if (id) {
     return ({
       initialValues: {
-          ...fromEntities.getDetail(state, 'category', id),
-          _csrf: fromForm.getCsrfToken(state)
-        },
+        ...fromEntities.getDetail(state, 'category', id),
+        _csrf: fromForm.getCsrfToken(state),
+      },
     })
   }
   return ({
     initialValues: {
-      _csrf: fromForm.getCsrfToken(state)
-    }
+      _csrf: fromForm.getCsrfToken(state),
+    },
   })
 }
 
 const mapDispatchToProps = (dispatch, { id }) => ({
-  request: () => dispatch(categoryRead.request(id))
+  request: () => dispatch(categoryRead.request(id)),
 })
 
 export const config = {
@@ -64,7 +63,7 @@ export const config = {
   enableReinitialize: true,
   destroyOnUnmount: true,
   onSubmit,
-  validate
+  validate,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm(config)(AdminCategoryFormContainer))

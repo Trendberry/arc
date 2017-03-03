@@ -13,7 +13,7 @@ const DataTableHead = (props) => {
     _sort,
     columnData,
     handleSelectAllClick,
-    handleRequestSort
+    handleRequestSort,
   } = props
 
   return (
@@ -38,16 +38,11 @@ const DataTableHead = (props) => {
         }, this)}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 DataTableHead.propTypes = {
-  columnData: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    numeric: PropTypes.bool,
-    padding: PropTypes.bool,
-    label: PropTypes.string
-  })).isRequired,
+  columnData: PropTypes.array.isRequired,
   handleRequestSort: PropTypes.func.isRequired,
   handleSelectAllClick: PropTypes.func.isRequired,
   _order: PropTypes.string.isRequired,

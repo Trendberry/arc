@@ -7,13 +7,13 @@ import { config } from './AdminCategoryForm'
 
 class AdminCategoryUpdatePageContainer extends Component {
   static propTypes = {
-    params: PropTypes.object.isRequired
+    params: PropTypes.object.isRequired,
   }
 
   static post({ req, store }) {
     return Promise.all([
       this.get({ store }),
-      store.dispatch(submit(config, req.body))
+      store.dispatch(submit(config, req.body)),
     ])
   }
 
