@@ -15,15 +15,31 @@ class AdminCategoryListPageContainer extends Component {
     })
   }
 
+  static contextTypes = {
+    handleSetTitle: PropTypes.func.isRequired,
+  }
+
   static propTypes = {
     list: PropTypes.arrayOf(PropTypes.object).isRequired,
     count: PropTypes.number.isRequired,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      title: 'Categories',
+    }
+  }
+
+  componentWillMount() {
+    this.context.handleSetTitle(this.state.title)
+  }
+
   render() {
     const { list, count } = this.props
     const getList = this.constructor.get
-    return <AdminCategoryListPage {...{ list, count, getList }} />
+    return <AdminCategoryListPage {...{ list, count, getList, title: this.state.title }} />
   }
 }
 

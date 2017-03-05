@@ -42,7 +42,7 @@ const styleSheet = createStyleSheet('DataTableToolbar', (theme) => {
 })
 
 const DataTableToolbar = (props, context) => {
-  const { numSelected, title } = props
+  const { numSelected, title, getData } = props
   const classes = context.styleManager.render(styleSheet)
   let classNames = classes.root
 
@@ -66,7 +66,7 @@ const DataTableToolbar = (props, context) => {
         </div>
       ) : (
         <div className={classes.actions}>
-          <SearchWidget />
+          <SearchWidget getData={getData} />
           <IconButton>
             <IconAdd />
           </IconButton>
@@ -79,6 +79,7 @@ const DataTableToolbar = (props, context) => {
 DataTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  getData: PropTypes.func.isRequired,
 }
 
 DataTableToolbar.contextTypes = {

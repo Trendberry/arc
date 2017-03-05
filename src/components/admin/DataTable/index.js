@@ -37,7 +37,7 @@ const DataTable = (props, context) => {
 
   return (
     <Paper elevation={2} className={classes.paper}>
-      <DataTableToolbar title={title} numSelected={selected.length} />
+      <DataTableToolbar title={title} numSelected={selected.length} getData={getData} />
       <Table>
         <DataTableHead {...{ getData, columnData, handleSelectAllClick }} />
         <TableBody>

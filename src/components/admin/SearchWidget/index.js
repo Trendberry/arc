@@ -65,7 +65,7 @@ const styleSheet = createStyleSheet('SearchWidget', (theme) => {
 })
 
 const SearchWidget = (props, context) => {
-  const { open, searchInput, onRequestOpen, onRequestClose, onInputBlur, initialValue } = props
+  const { open, searchInput, onRequestOpen, onRequestClose, onInputBlur, onInputChange, inputValue } = props
   const classes = context.styleManager.render(styleSheet)
 
   return (
@@ -74,7 +74,7 @@ const SearchWidget = (props, context) => {
         <IconSearch />
       </IconButton>
       <div className={classNames(classes.field, { [classes.open]: open })}>
-        <Input className={classes.input} value={initialValue} ref={searchInput} onBlur={(event) => onInputBlur(event)} />
+        <Input className={classes.input} value={inputValue} ref={searchInput} onBlur={(event) => onInputBlur(event)} onChange={(event) => onInputChange(event)} />
       </div>
       <IconButton className={classNames(classes.button, classes.close, { [classes.visible]: open })} onClick={onRequestClose}>
         <IconClose />
@@ -89,13 +89,14 @@ SearchWidget.propTypes = {
   onRequestOpen: PropTypes.func.isRequired,
   onRequestClose: PropTypes.func.isRequired,
   onInputBlur: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired,
   searchInput: PropTypes.func.isRequired,
-  initialValue: PropTypes.string,
+  inputValue: PropTypes.string,
 }
 
 SearchWidget.defultProps = {
   open: false,
-  initialValue: '',
+  inputValue: '',
 }
 
 SearchWidget.contextTypes = {

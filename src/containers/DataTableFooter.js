@@ -17,24 +17,15 @@ class DataTableFooterContainer extends Component {
     this.state = {
       _page: page,
       _limit: limit,
+      totalPages: Math.ceil(props.count / limit),
       anchorEl: undefined,
       open: false,
-      selectedIndex: 0,
-      location: {
-        pathname: router.location.pathname,
-        query: params,
-      },
     }
   }
 
-  componentWillReceiveProps() {
-    const { pathname, query } = this.context.router.location
-
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      location: {
-        pathname,
-        query,
-      },
+      totalPages: Math.ceil(nextProps.count / this.state._limit),
     })
   }
 
@@ -45,12 +36,10 @@ class DataTableFooterContainer extends Component {
 
   handleRequestClose = () => this.setState({ open: false })
 
-  handlePagination = (query) => {
+  handlePagination = (nextParams) => {
     const { store, router } = this.context
 
-    this.props.getData({ store, ...{ ...router, query } })
-
-    const params = { ...query }
+    const params = { ...router.location.query, ...nextParams }
     params._page === 1 && delete params._page
     params._limit === this.props.limitOptions[0] && delete params._limit
 
@@ -59,71 +48,58 @@ class DataTableFooterContainer extends Component {
       query: params,
     }
 
-    this.setState({ ...query, location })
-
-    router.push(location)
+    this.setState({ ...nextParams }, () => {
+      this.props.getData({ store, ...{ ...router, location } })
+      router.push(location)
+    })
   }
 
   handleMenuItemClick = (event, index) => {
-    const query = this.context.router.location.query || {}
-    query._limit = this.props.limitOptions[index]
-    query._page = 1
+    const limit = this.props.limitOptions[index]
 
     this.setState({
-      selectedIndex: index,
       open: false,
+      totalPages: Math.ceil(this.props.count / limit),
     })
 
-    this.handlePagination(query)
+    this.handlePagination({
+      _limit: limit,
+      _page: 1,
+    })
   }
 
-  handleClickPrevPage = () => {
-    const query = this.context.router.location.query || {}
+  handleClickPrevPage = (event) => {
     const { _page } = this.state
-    query._page = parseInt(_page, 10) - 1
+    if (_page === 1) return
 
-    this.handlePagination(query)
+    const page = parseInt(_page, 10) - 1
+    this.handlePagination({ _page: page })
+    event.preventDefault()
   }
 
-  handleClickNextPage = () => {
-    const query = this.context.router.location.query || {}
-    const { _page } = this.state
-    query._page = parseInt(_page, 10) + 1
+  handleClickNextPage = (event) => {
+    const { _page, totalPages } = this.state
+    if (_page === totalPages) return
 
-    this.handlePagination(query)
+    const page = parseInt(_page, 10) + 1
+    this.handlePagination({ _page: page })
+    event.preventDefault()
   }
 
   render() {
-    const { _limit, _page, anchorEl, open, selectedIndex, location } = this.state
+    const { _limit, _page, anchorEl, open, totalPages } = this.state
     const { count } = this.props
 
     const startIndex = (_limit * (_page - 1)) + 1
     const endIndex = (count >= _limit * _page) ? (_limit * _page) : count
 
-    const hasPrev = startIndex > 1
-    const hasNext = endIndex < count
-
-    const prevPageLink = hasPrev && {
-      ...location,
-      query: {
-        ...location.query,
-        _page: parseInt(location.query._page || 1, 10) - 1,
-      },
-    }
-    prevPageLink.query && prevPageLink.query._page === 1 && delete prevPageLink.query._page
-
-    const nextPageLink = hasNext && {
-      ...location,
-      query: {
-        ...location.query,
-        _page: parseInt(location.query._page || 1, 10) + 1,
-      },
-    }
+    const hasPrev = _page > 1
+    const hasNext = _page < totalPages
 
     return (
       <DataTableFooter
         {...this.props}
-        {...{ count, startIndex, endIndex, anchorEl, open, selectedIndex, hasPrev, hasNext, prevPageLink, nextPageLink }}
+        {...{ _limit, _page, count, startIndex, endIndex, anchorEl, open, hasPrev, hasNext }}
 
         onClickPrevPage={this.handleClickPrevPage}
         onClickNextPage={this.handleClickNextPage}

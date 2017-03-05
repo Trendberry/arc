@@ -72,7 +72,7 @@ Name.contextTypes = {
 }
 
 const AdminCategoryListPage = (props) => {
-  const { list, count, getList } = props
+  const { list, count, getList, title } = props
 
   const columnData = [
     { id: 'name', numeric: false, padding: false, label: 'Name' },
@@ -94,13 +94,14 @@ const AdminCategoryListPage = (props) => {
 
   return (
     <div>
-      <Helmet title="Categories" />
-      <DataTable title="Categories" {...{ columnData, data, getData: getList, count }} />
+      <Helmet title={title} />
+      <DataTable title={title} {...{ columnData, data, getData: getList, count }} />
     </div>
   )
 }
 
 AdminCategoryListPage.propTypes = {
+  title: PropTypes.string.isRequired,
   count: PropTypes.number,
   getList: PropTypes.func.isRequired,
   list: PropTypes.array,

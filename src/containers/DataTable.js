@@ -9,17 +9,17 @@ class DataTableContainer extends Component {
 
     this.state = {
       selected: [],
-      data: props.data,
+      // data: props.data,
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ data: nextProps.data })
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({ data: nextProps.data })
+  // }
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      return this.setState({ selected: this.state.data.map((n) => n._id) })
+      return this.setState({ selected: this.props.data.map((n) => n._id) })
     }
     return this.setState({ selected: [] })
   }
@@ -56,12 +56,12 @@ class DataTableContainer extends Component {
   }
 
   render() {
-    const { selected, data } = this.state
+    const { selected } = this.state
 
     return (
       <DataTable
         {...this.props}
-        {...{ selected, data }}
+        {...{ selected }}
 
         handleSelectAllClick={this.handleSelectAllClick}
         isSelected={this.isSelected}

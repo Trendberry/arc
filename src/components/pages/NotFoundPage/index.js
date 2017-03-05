@@ -100,6 +100,42 @@ const styles = createStyleSheet('NotFoundPage', (theme) => ({
     marginTop: 40,
     width: 128,
   },
+  bag: {
+    animation: 'floating 3s ease-in-out infinite',
+    fontSize: '48px',
+    lineHeight: '160px',
+    position: 'relative',
+    margin: 'auto',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: 160,
+    height: 160,
+    zIndex: 1,
+    background: theme.palette.background.contentFrame,
+    '&:before, &:after': {
+      position: 'absolute',
+      content: '""',
+    },
+    '&:before': {
+      zIndex: -1,
+      top: -10,
+      left: 15,
+      width: 128,
+      height: 10,
+      background: theme.palette.background.status,
+    },
+    '&:after': {
+      top: -56,
+      left: 50,
+      width: 60,
+      height: 80,
+      border: `4px solid ${theme.palette.text.icon}`,
+      borderRadius: '100px 100px 0 0',
+      borderBottom: 'none',
+    },
+  },
 }))
 
 const NotFoundPage = (props, context) => {
@@ -109,9 +145,10 @@ const NotFoundPage = (props, context) => {
     <div>
       <div className={classes.container}>
         <div className={classes.booWrapper}>
-          <div className={classes.boo}>
+          {/* <div className={classes.boo}>
             <div className={classes.booFace} />
-          </div>
+          </div> */}
+          {<div className={classes.bag}>404</div>}
           <div className={classes.booShadow} />
           <h1>Whoops!</h1>
           <p>We couldn&apos;t find the page you<br />were looking for.</p>

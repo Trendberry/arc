@@ -20,8 +20,27 @@ class AdminPageTemplateContainer extends Component {
     styleManager: customPropTypes.muiRequired,
   }
 
+  static childContextTypes = {
+    handleSetTitle: PropTypes.func,
+  }
+
   state = {
     drawerOpen: false,
+    title: 'Trendberry',
+  }
+
+  getChildContext() {
+    return {
+      handleSetTitle: this.handleSetTitle,
+    }
+  }
+
+  // componentWillReceiveProps() {
+  //   this.setState({ title: 'Trendberry' })
+  // }
+
+  handleSetTitle = (title) => {
+    this.setState({ title })
   }
 
   // componentDidMount() {
@@ -83,6 +102,7 @@ class AdminPageTemplateContainer extends Component {
         drawerDocked={drawerDocked}
         drawerOpen={this.state.drawerOpen}
         location={location}
+        title={this.state.title}
       >
         {children}
       </AdminPageTemplate>

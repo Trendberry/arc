@@ -59,17 +59,21 @@ const DataTableFooter = (props, context) => {
   const classes = context.styleManager.render(toolbarStyleSheet)
 
   const {
-    startIndex, endIndex, anchorEl, open, selectedIndex, count,
-    hasPrev,
-    hasNext,
-    prevPageLink,
-    nextPageLink,
-    limitOptions,
-    onClickPrevPage,
-    onClickNextPage,
+    _limit,
+    _page,
+    anchorEl,
+    count,
+    endIndex,
+    handleMenuItemClick,
     handleRequestClose,
     handleRequestOpen,
-    handleMenuItemClick,
+    hasNext,
+    hasPrev,
+    limitOptions,
+    onClickNextPage,
+    onClickPrevPage,
+    open,
+    startIndex,
   } = props
 
   return (
@@ -78,11 +82,17 @@ const DataTableFooter = (props, context) => {
       <div className={classes.pagination}>
         <Text className={classNames(classes.text, classes.label)} type="caption">Rows per page</Text>
         <IconButton onClick={handleRequestOpen}>
-          <Text className={classes.pages} type="caption">{limitOptions[selectedIndex]}</Text><IconCaret />
+          <Text className={classes.pages} type="caption">{_limit}</Text><IconCaret />
         </IconButton>
-        <Text className={classes.text} type="caption">{startIndex}-{endIndex} of {count}</Text>
-        <IconButton component={hasPrev ? Link : 'span'} to={prevPageLink} onClick={hasPrev ? onClickPrevPage : () => false} disabled={startIndex === 1}><IconPrev /></IconButton>
-        <IconButton component={hasNext ? Link : 'span'} to={nextPageLink} onClick={hasNext ? onClickNextPage : () => false} disabled={endIndex === count}><IconNext /></IconButton>
+        <Text className={classes.text} type="caption">{count && `${startIndex}-${endIndex}`} of {count}</Text>
+        {hasPrev ?
+          <IconButton component={Link} to={hasPrev && (location => ({ ...location, query: { ...location.query, _page: _page - 1 } }))} onClick={(event) => onClickPrevPage(event)}><IconPrev /></IconButton> :
+          <IconButton component={'span'} disabled><IconPrev /></IconButton>
+        }
+        {hasNext ?
+          <IconButton component={Link} to={hasNext && (location => ({ ...location, query: { ...location.query, _page: _page + 1 } }))} onClick={(event) => onClickNextPage(event)}><IconNext /></IconButton> :
+          <IconButton component={'span'} disabled><IconNext /></IconButton>
+        }
       </div>
       <Menu
         {...{ anchorEl, open }}
@@ -92,7 +102,7 @@ const DataTableFooter = (props, context) => {
           return (
             <MenuItem
               key={option}
-              selected={index === selectedIndex}
+              selected={option === _limit}
               onClick={(event) => handleMenuItemClick(event, index)}
             >
               {option}
@@ -105,23 +115,22 @@ const DataTableFooter = (props, context) => {
 }
 
 DataTableFooter.propTypes = {
-  hasPrev: PropTypes.bool.isRequired,
-  hasNext: PropTypes.bool.isRequired,
-  prevPageLink: PropTypes.any.isRequired,
-  nextPageLink: PropTypes.any.isRequired,
-  onClickPrevPage: PropTypes.func.isRequired,
-  onClickNextPage: PropTypes.func.isRequired,
-  handleRequestClose: PropTypes.func.isRequired,
-  handleRequestOpen: PropTypes.func.isRequired,
-  handleMenuItemClick: PropTypes.func.isRequired,
+  _limit: PropTypes.number.isRequired,
+  _page: PropTypes.number.isRequired,
   anchorEl: PropTypes.object,
   count: PropTypes.number,
-  startIndex: PropTypes.number,
   endIndex: PropTypes.number,
+  handleMenuItemClick: PropTypes.func.isRequired,
+  handleRequestClose: PropTypes.func.isRequired,
+  handleRequestOpen: PropTypes.func.isRequired,
+  hasNext: PropTypes.bool.isRequired,
+  hasPrev: PropTypes.bool.isRequired,
   limitOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
-  open: PropTypes.bool,
-  selectedIndex: PropTypes.number,
   location: PropTypes.object,
+  onClickNextPage: PropTypes.func.isRequired,
+  onClickPrevPage: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  startIndex: PropTypes.number,
 }
 
 DataTableFooter.contextTypes = {

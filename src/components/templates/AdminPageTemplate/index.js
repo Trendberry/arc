@@ -10,7 +10,7 @@ import LightbulbOutlineIcon from 'material-ui/svg-icons/lightbulb-outline'
 
 import { AppDrawer, AppContent } from 'components'
 
-const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
+const styleSheet = createStyleSheet('AdminPageTemplate', (theme) => {
   return {
     '@global': {
       html: {
@@ -153,7 +153,14 @@ const styleSheet = createStyleSheet('PageTemplateContainer', (theme) => {
       marginRight: -12,
     },
     title: {
+      marginLeft: 12,
+      flex: '0 0 auto',
+    },
+    subTitle: {
+      borderLeft: `1px solid ${theme.palette.shades.dark.text.icon}`,
+      fontWeight: 300,
       marginLeft: 24,
+      paddingLeft: 24,
       flex: '0 0 auto',
     },
     appBar: {
@@ -187,17 +194,17 @@ const AdminPageTemplate = (props, context) => {
     children,
     drawerDocked,
     drawerOpen,
+    title,
   } = props
 
   const classes = context.styleManager.render(styleSheet)
-  const title = ''
 
   let navIconClassName = classes.navIcon
   let appBarClassName = classes.appBar
 
   if (title === null) { // home route, don't shift app bar or dock drawer
     // drawerDocked = false
-    appBarClassName += ` ${classes.appBarHome}`
+    // appBarClassName += ` ${classes.appBarHome}`
   } else {
     navIconClassName += ` ${classes.navIconHide}`
     appBarClassName += ` ${classes.appBarShift}`
@@ -210,6 +217,7 @@ const AdminPageTemplate = (props, context) => {
           <IconButton contrast onClick={handleDrawerToggle} className={navIconClassName}>
             <MenuIcon />
           </IconButton>
+          {/* <Text className={classes.title} type="title" colorInherit>Trendberry</Text> */}
           {title !== null && (
             <Text className={classes.title} type="title" colorInherit>
               {title}
@@ -241,6 +249,11 @@ AdminPageTemplate.propTypes = {
   children: PropTypes.element,
   drawerDocked: PropTypes.bool,
   drawerOpen: PropTypes.bool,
+  title: PropTypes.string,
+}
+
+AdminPageTemplate.defaultProps = {
+  title: null,
 }
 
 AdminPageTemplate.contextTypes = {

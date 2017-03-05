@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PureComponent, PropTypes } from 'react'
 import { DataTableHead } from 'components'
 
-class DataTableHeadContainer extends Component {
+class DataTableHeadContainer extends PureComponent {
   constructor(props, context) {
     super(props, context)
 
@@ -15,39 +15,35 @@ class DataTableHeadContainer extends Component {
     }
   }
 
-  handleSort = (query) => {
+  handleSort = (nextParams) => {
     const { store, router } = this.context
 
-    this.setState({ ...query })
-
-    query._order.toUpperCase()
-
-    this.props.getData({ store, ...{ ...router, query } })
-
-    const params = Object.assign({}, query)
+    const params = { ...router.location.query, ...nextParams }
     params._sort === '_id' && delete params._sort
-    params._page === 1 && delete params._page
-    params._limit === 15 && delete params._limit
+    params._order = params._order.toUpperCase()
 
-    router.push({
-      ...router.location,
+    const location = {
+      pathname: router.location.pathname,
       query: params,
+    }
+
+    this.setState({ ...nextParams }, () => {
+      this.props.getData({ store, ...{ ...router, location } })
+      router.push(location)
     })
   }
 
   handleRequestSort = (event, property) => {
-    const query = this.context.router.location.query || {}
-
-    let _order = 'desc'
+    let order = 'desc'
 
     if (this.state._sort === property && this.state._order === 'desc') {
-      _order = 'asc'
+      order = 'asc'
     }
 
-    query._order = _order
-    query._sort = property
-
-    this.handleSort(query)
+    this.handleSort({
+      _order: order,
+      _sort: property,
+    })
   }
 
   render() {
