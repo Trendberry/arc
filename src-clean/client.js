@@ -3,19 +3,12 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { AppContainer } from 'react-hot-loader'
 import { createHistory } from 'history'
-// import match from 'react-router/lib/match'
-import Router from 'react-router/lib/Router'
-import useRouterHistory from 'react-router/lib/useRouterHistory'
+import { Router, useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { basename } from 'config'
 import configureStore from 'store/configure'
 
-import { MuiThemeProvider, styleManager, theme } from 'mui'
-
 import routes from 'routes'
-
-const { pathname, search, hash } = window.location
-const location = `${pathname}${search}${hash}`
 
 // eslint-disable-next-line no-underscore-dangle
 const initialState = window.__INITIAL_STATE__
@@ -24,23 +17,19 @@ const store = configureStore(initialState, baseHistory)
 const history = syncHistoryWithStore(baseHistory, store)
 const root = document.getElementById('app')
 
-const renderApp = () => {
-  render(
-    <AppContainer>
-      <MuiThemeProvider styleManager={styleManager} theme={theme}>
-        <Provider store={store}>
-          <Router key={Math.random()} history={history} routes={routes(store)} />
-        </Provider>
-      </MuiThemeProvider>
-    </AppContainer>,
-    root,
-  )
-}
+const renderApp = () => (
+  <AppContainer>
+    <Provider store={store}>
+      <Router key={Math.random()} history={history} routes={routes} />
+    </Provider>
+  </AppContainer>
+)
+
+render(renderApp(), root)
 
 if (module.hot) {
   module.hot.accept('routes', () => {
-    renderApp()
+    require('routes')
+    render(renderApp(), root)
   })
 }
-
-renderApp()
