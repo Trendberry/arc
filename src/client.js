@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { AppContainer } from 'react-hot-loader'
 import { createHistory } from 'history'
-import match from 'react-router/lib/match'
+// import match from 'react-router/lib/match'
 import Router from 'react-router/lib/Router'
 import useRouterHistory from 'react-router/lib/useRouterHistory'
 import { syncHistoryWithStore } from 'react-router-redux'
@@ -27,18 +27,18 @@ const root = document.getElementById('app')
 // Create a styleManager instance.
 
 const renderApp = () => {
-  match({ history, routes: routes(store), location }, (error, redirectLocation, renderProps) => {
+  // match({ history, routes: routes(store), location }, (error, redirectLocation, renderProps) => {
     render(
       <AppContainer>
         <MuiThemeProvider styleManager={styleManager} theme={theme}>
           <Provider store={store}>
-            <Router key={Math.random()} {...renderProps} />
+            <Router key={Math.random()} history={history} routes={routes(store)} />
           </Provider>
         </MuiThemeProvider>
       </AppContainer>,
       root,
     )
-  })
+  // })
 }
 
 if (module.hot) {

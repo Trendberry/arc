@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
-import Field from 'redux-form/lib/Field'
+import { Field } from 'redux-form'
 import { createStyleSheet } from 'jss-theme-reactor'
 import customPropTypes from 'material-ui/utils/customPropTypes'
 import Paper from 'material-ui/Paper'
-// import SvgIcon from 'material-ui/SvgIcon'
+import SvgIcon from 'material-ui/SvgIcon'
 import Toolbar from 'material-ui/Toolbar'
 import Text from 'material-ui/Text'
 // import IconButton from 'material-ui/IconButton'
@@ -11,12 +11,23 @@ import TextField from 'material-ui/TextField'
 import Layout from 'material-ui/Layout'
 import Button from 'material-ui/Button'
 
+import Input from 'material-ui/Input'
+import InputLabel from 'material-ui/Input/InputLabel'
+import FormControl from 'material-ui/Form/FormControl'
+import Menu from 'material-ui/Menu/Menu'
+import MenuItem from 'material-ui/Menu/MenuItem'
+
+import { AutocompleteSelect } from 'containers'
+
 const toolbarStyleSheet = createStyleSheet('Toolbar', (theme) => {
   return {
     root: { paddingRight: 12 },
     spacer: { flex: '1 1 100%' },
     actions: { color: theme.palette.text.secondary },
     title: { flex: '0 0 auto' },
+    categoryParent: {
+
+    },
   }
 })
 
@@ -49,7 +60,6 @@ renderTextField.propTypes = {
   input: PropTypes.object,
 }
 
-
 const renderTextAreaField = props => {
   return (
     <TextField
@@ -67,13 +77,17 @@ renderTextAreaField.propTypes = {
   input: PropTypes.object,
 }
 
-const AdminCategoryForm = ({ id, handleSubmit, submitting }, context) => {
+const AdminCategoryForm = (props, context) => {
   const toolabrClasses = context.styleManager.render(toolbarStyleSheet)
   const classes = context.styleManager.render(styleSheet)
+  const {
+    id,
+    handleSubmit,
+    submitting,
+   } = props
 
   return (
     <div>
-      {/* {loading && <CircularProgress />} */}
       <Paper elevation={2}>
         <form method="POST" onSubmit={handleSubmit}>
 
@@ -92,21 +106,32 @@ const AdminCategoryForm = ({ id, handleSubmit, submitting }, context) => {
           <Field name="_csrf" type="hidden" component="input" />
 
           <Layout container gutter={24} className={classes.root}>
-            <Layout item sm={6}>
+            <Layout item sm={8}>
               <div className={classes.fieldRow}>
                 <Field name="name" label="Name" component={renderTextField} />
               </div>
               <div className={classes.fieldRow}>
-                {/* <Field name="description" label="Description" component={renderTextAreaField} /> */}
-                <Field name="description" label="Description" component={renderTextField} />
+                <Field name="description" label="Description" component={renderTextAreaField} />
+              </div>
+              <div className={classes.fieldRow}>
+                <Layout item sm={6}>
+                  <AutocompleteSelect />
+                </Layout>
               </div>
             </Layout>
-            <Layout item sm={6} />
+            <Layout item sm={4}>
+              <div className={classes.fieldRow}>
+                <Field name="slug" label="Slug" component={renderTextField} />
+              </div>
+              <div className={classes.fieldRow}>
+                <Field name="meta[title]" label="Meta Title" component={renderTextField} />
+              </div>
+              <div className={classes.fieldRow}>
+                <Field name="meta[description]" label="Meta Description" component={renderTextAreaField} />
+              </div>
+            </Layout>
             <Button primary type="submit" disabled={submitting}>{id ? 'Update' : 'Create'}</Button>
           </Layout>
-
-          {/* <Field name="description" label="Description" type="textarea" component={ReduxField} /> */}
-          {/* <Button type="submit" disabled={submitting}>{id ? 'Update' : 'Create'}</Button> */}
         </form>
       </Paper>
     </div>

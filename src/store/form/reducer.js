@@ -1,4 +1,4 @@
-import reducer from 'redux-form/lib/reducer'
+import { reducer } from 'redux-form'
 import { initialState } from './selectors'
 import { FORM_SET_CSRF_TOKEN } from './actions'
 

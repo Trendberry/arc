@@ -83,7 +83,7 @@ const AdminCategoryListPage = (props) => {
 
   list.forEach(listItem => {
     const { name, created } = listItem
-    const date = new Date(created)
+    const date = created ? new Date(created) : new Date()
 
     data.push({
       ...listItem,
