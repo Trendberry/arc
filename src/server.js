@@ -79,7 +79,7 @@ router.use((req, res, next) => {
         </MuiThemeProvider>
       )
 
-      const styles = styleManager.sheetsToString().replace(/[\n|\s]+/g, ' ') //styleSheet.rules().map(rule => rule.cssText).join('\n')
+      const styles = styleManager.sheetsToString() // .replace(/[\n|\s]+/g, ' ') //styleSheet.rules().map(rule => rule.cssText).join('\n')
       const initialState = store.getState()
       const assets = global.webpackIsomorphicTools.assets()
       const state = `window.__INITIAL_STATE__ = ${serialize(initialState)}`

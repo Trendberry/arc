@@ -15,6 +15,7 @@ const Html = ({ styles, assets, state, content }) => {
         {helmet.link.toComponent()}
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="https://draftjs.org/lib/Draft.css" rel="stylesheet" />
         <style id="jss-server-side" dangerouslySetInnerHTML={{ __html: styles }} />
       </head>
       <body>

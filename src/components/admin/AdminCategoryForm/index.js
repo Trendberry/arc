@@ -17,6 +17,7 @@ import FormControl from 'material-ui/Form/FormControl'
 import Menu from 'material-ui/Menu/Menu'
 import MenuItem from 'material-ui/Menu/MenuItem'
 
+import { DraftRichEditor } from 'components'
 import { AutocompleteSelect } from 'containers'
 
 const toolbarStyleSheet = createStyleSheet('Toolbar', (theme) => {
@@ -109,6 +110,9 @@ const AdminCategoryForm = (props, context) => {
             <Layout item sm={8}>
               <div className={classes.fieldRow}>
                 <Field name="name" label="Name" component={renderTextField} />
+              </div>
+              <div className={classes.fieldRow}>
+                <DraftRichEditor />
               </div>
               <div className={classes.fieldRow}>
                 <Field name="description" label="Description" component={renderTextAreaField} />

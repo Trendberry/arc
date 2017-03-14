@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-// import compose from 'recompose/compose'
-// import withWidth, { isWidthUp } from 'material-ui/utils/withWidth'
+import compose from 'recompose/compose'
+import withWidth, { isWidthUp } from 'material-ui/utils/withWidth'
 import customPropTypes from 'material-ui/utils/customPropTypes'
 import { AdminPageTemplate } from 'components'
 import { fromStatus } from 'store/selectors'
@@ -25,7 +25,7 @@ class AdminPageTemplateContainer extends Component {
   }
 
   state = {
-    drawerOpen: false,
+    drawerOpen: true,
     title: 'Trendberry',
   }
 
@@ -114,4 +114,7 @@ const mapStateToProps = (state) => ({
   loading: fromStatus.isLoading(state),
 })
 
-export default connect(mapStateToProps)(AdminPageTemplateContainer)
+export default compose(
+  // withWidth(),
+  connect(mapStateToProps),
+)(AdminPageTemplateContainer)

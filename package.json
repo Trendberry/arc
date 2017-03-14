@@ -4,7 +4,7 @@
   "private": true,
   "main": "src",
   "scripts": {
-    "start": "node .",
+    "start": "npm run build && node .",
     "test": "cross-env NODE_ENV=test jest",
     "coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
@@ -71,6 +71,9 @@
     "cross-env": "^3.1.4",
     "csurf": "^1.9.0",
     "dateformat": "^2.0.0",
+    "draft-js": "^0.10.0",
+    "draft-js-export-html": "^0.5.2",
+    "draftjs-utils": "^0.6.3",
     "express": "^4.14.0",
     "express-force-ssl": "^0.3.2",
     "file-loader": "^0.10.1",

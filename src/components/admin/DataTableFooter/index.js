@@ -29,11 +29,10 @@ const IconCaret = (props) => (
 
 const toolbarStyleSheet = createStyleSheet('DataTableFooter', (theme) => {
   return {
-    toolbar: { paddingRight: 12 },
+    toolbar: { paddingRight: 2 },
     spacer: { flex: '1 1 100%' },
     pagination: {
       color: theme.palette.text.secondary,
-      marginRight: -10,
       whiteSpace: 'nowrap',
       '& > *': {
         verticalAlign: 'top',
