@@ -4,7 +4,7 @@
   "private": true,
   "main": "src",
   "scripts": {
-    "start": "npm run build && node .",
+    "start": "node .",
     "test": "cross-env NODE_ENV=test jest",
     "coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
