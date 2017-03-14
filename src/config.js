@@ -21,7 +21,7 @@ const config = {
     ip: process.env.IP || '0.0.0.0',
     port: process.env.PORT || 8080,
     baseUrl: 'https://trendberry.herokuapp.com',
-    apiUrl: 'https://trendberry-api.herokuapp.com',
+    apiUrl: 'https://trendberry-api.herokuapp.com/api',
   },
 }
 
