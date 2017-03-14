@@ -45,11 +45,6 @@ router.use((req, res, next) => {
       return next(error)
     }
 
-    console.log('-------------------server-------------------')
-    console.log(location)
-    console.log(renderProps.location)
-    console.log('-------------------server-------------------')
-
     const fetchData = () => new Promise((resolve, reject) => {
       const method = req.method.toLowerCase()
       const { params, location, components } = renderProps

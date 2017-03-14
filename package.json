@@ -80,7 +80,7 @@
     "history": "^3.2.1",
     "jss-theme-reactor": "^0.10.0",
     "lodash": "^4.17.4",
-    "material-ui": "next",
+    "material-ui": "v1.0.0-alpha.7",
     "material-ui-icons": "^1.0.0-alpha.1",
     "morgan": "^1.7.0",
     "normalizr": "^3.2.2",
