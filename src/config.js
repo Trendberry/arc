@@ -20,8 +20,8 @@ const config = {
   production: {
     ip: process.env.IP || '0.0.0.0',
     port: process.env.PORT || 8080,
-    baseUrl: 'https://arc.diegohaz.com',
-    apiUrl: 'https://jsonplaceholder.typicode.com',
+    baseUrl: 'https://trendberry.herokuapp.com/',
+    apiUrl: 'https://trendberry-api.herokuapp.com/',
   },
 }
 
