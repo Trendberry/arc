@@ -33,11 +33,14 @@ const DataTable = (props, context) => {
     handleCheckboxClick,
     // handleKeyDown,
     title,
+    toolbarChildren,
   } = props
 
   return (
     <Paper elevation={2} className={classes.paper}>
-      <DataTableToolbar title={title} numSelected={selected.length} getData={getData} />
+      <DataTableToolbar title={title} numSelected={selected.length} getData={getData}>
+        {toolbarChildren}
+      </DataTableToolbar>
       <Table>
         <DataTableHead {...{ getData, columnData, handleSelectAllClick }} />
         <TableBody>
@@ -91,6 +94,7 @@ DataTable.propTypes = {
   handleCheckboxClick: PropTypes.func.isRequired,
   handleKeyDown: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  toolbarChildren: PropTypes.element,
 }
 
 DataTable.contextTypes = {

@@ -37,6 +37,7 @@ const updateOrDeleteReducer = (state, action) => {
       return {
         ...state,
         list: [...state.list.slice(0, index), ...state.list.slice(index + 1)],
+        count: state.count - 1,
       }
     // istanbul ignore next
     default:
@@ -50,12 +51,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         list: [action.detail, ...state.list],
+        count: state.count + 1,
       }
 
     case SHOP_LIST_READ_SUCCESS:
       return {
         ...state,
         list: action.list,
+        count: action.count,
       }
 
     case SHOP_DETAIL_READ_SUCCESS:

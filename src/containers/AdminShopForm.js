@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { fromForm, fromEntities } from 'store/selectors'
-import { shopCreate, shopRead, shopUpdate } from 'store/actions'
+import { shopCreateRequest, shopReadRequest, shopUpdateRequest } from 'store/actions'
 import { createValidator, required } from 'services/validation'
 
 import { AdminShopForm } from 'components'
@@ -42,9 +42,9 @@ class AdminShopFormContainer extends Component {
 
 const onSubmit = (data, dispatch, state) => new Promise((resolve, reject) => {
   if (data._id) {
-    return dispatch(shopUpdate.request(state.initialValues, data, resolve, reject))
+    return dispatch(shopUpdateRequest(state.initialValues, data, resolve, reject))
   }
-  return dispatch(shopCreate.request(data, resolve, reject))
+  dispatch(shopCreateRequest(data, resolve, reject))
 })
 
 const validate = createValidator({
@@ -69,7 +69,7 @@ const mapStateToProps = (state, { id }) => {
 }
 
 const mapDispatchToProps = (dispatch, { id }) => ({
-  request: () => dispatch(shopRead.request(id)),
+  request: () => dispatch(shopReadRequest(id)),
 })
 
 export const config = {

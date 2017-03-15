@@ -16,7 +16,7 @@ export const actionsMeta = {
   [CATEGORY_READ_SUCCESS]: { property: 'data', schema: category },
   [CATEGORY_UPDATE_SUCCESS]: { property: 'newData', schema: category },
   [SHOP_LIST_READ_SUCCESS]: { property: 'list', schema: [shop] },
-  [SHOP_CREATE_SUCCESS]: { property: 'data', schema: shop },
+  [SHOP_CREATE_SUCCESS]: { property: 'detail', schema: shop },
   [SHOP_DETAIL_READ_SUCCESS]: { property: 'data', schema: shop },
   [SHOP_UPDATE_SUCCESS]: { property: 'newData', schema: shop },
 }

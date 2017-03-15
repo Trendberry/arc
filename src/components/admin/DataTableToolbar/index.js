@@ -9,12 +9,6 @@ import SvgIcon from 'material-ui/SvgIcon'
 
 import { SearchWidget } from 'containers'
 
-const IconAdd = (props) => (
-  <SvgIcon {...props}>
-    <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-  </SvgIcon>
-)
-
 const styleSheet = createStyleSheet('DataTableToolbar', (theme) => {
   return {
     root: { paddingRight: 12 },
@@ -42,7 +36,7 @@ const styleSheet = createStyleSheet('DataTableToolbar', (theme) => {
 })
 
 const DataTableToolbar = (props, context) => {
-  const { numSelected, title, getData } = props
+  const { numSelected, title, getData, children } = props
   const classes = context.styleManager.render(styleSheet)
   let classNames = classes.root
 
@@ -67,9 +61,7 @@ const DataTableToolbar = (props, context) => {
       ) : (
         <div className={classes.actions}>
           <SearchWidget getData={getData} />
-          <IconButton>
-            <IconAdd />
-          </IconButton>
+          {children}
         </div>
       )}
     </Toolbar>
