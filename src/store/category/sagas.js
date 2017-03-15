@@ -5,7 +5,7 @@ import {
   CATEGORY_LIST_REQUEST, CATEGORY_CREATE_REQUEST, CATEGORY_READ_REQUEST, CATEGORY_UPDATE_REQUEST,
 } from './actions'
 
-export function* createPost(newData) {
+export function* createCategory(newData) {
   try {
     const { data } = yield call(api.post, '/categories', newData)
     yield put(categoryCreate.success(data))
@@ -14,7 +14,7 @@ export function* createPost(newData) {
   }
 }
 
-export function* readPost(id) {
+export function* readCategory(id) {
   try {
     const { data } = yield call(api.get, `/categories/${id}`)
     yield put(categoryRead.success(data))
@@ -23,7 +23,7 @@ export function* readPost(id) {
   }
 }
 
-export function* updatePost(oldData, newData) {
+export function* updateCategory(oldData, newData) {
   try {
     const { data } = yield call(api.put, `/categories/${oldData._id}`, newData)
     yield put(categoryUpdate.success(data, newData))
@@ -44,21 +44,21 @@ export function* listCategories(params) {
 export function* watchCategoryCreateRequest() {
   while (true) {
     const { data } = yield take(CATEGORY_CREATE_REQUEST)
-    yield call(createPost, data)
+    yield call(createCategory, data)
   }
 }
 
 export function* watchCategoryReadRequest() {
   while (true) {
     const { id } = yield take(CATEGORY_READ_REQUEST)
-    yield call(readPost, id)
+    yield call(readCategory, id)
   }
 }
 
 export function* watchCategoryUpdateRequest() {
   while (true) {
     const { data, newData } = yield take(CATEGORY_UPDATE_REQUEST)
-    yield call(updatePost, data, newData)
+    yield call(updateCategory, data, newData)
   }
 }
 

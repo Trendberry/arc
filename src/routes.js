@@ -4,7 +4,14 @@ import IndexRoute from 'react-router/lib/IndexRoute'
 
 import App from 'components/App'
 import { HomePage } from 'components'
-import { AdminPageTemplate, AdminCategoryListPage, AdminCategoryCreatePage, AdminCategoryUpdatePage, NotFoundPage } from 'containers'
+import {
+  AdminPageTemplate,
+  AdminCategoryListPage,
+  AdminCategoryCreatePage,
+  AdminCategoryUpdatePage,
+  AdminShopListPage,
+  NotFoundPage
+} from 'containers'
 
 const getRoutes = (store) => {
   const fetchData = (nextState, replace, callback) => {
@@ -37,6 +44,12 @@ const getRoutes = (store) => {
           <IndexRoute component={AdminCategoryListPage} onEnter={fetchData} />
           <Route path="create" component={AdminCategoryCreatePage} />
           <Route path=":id/update" component={AdminCategoryUpdatePage} />
+        </Route>
+
+        <Route path="shops">
+          <IndexRoute component={AdminShopListPage} onEnter={fetchData} />
+          {/*<Route path="create" component={AdminCategoryCreatePage} />*/}
+          {/*<Route path=":id/update" component={AdminCategoryUpdatePage} />*/}
         </Route>
 
         <Route path="*" component={NotFoundPage} />

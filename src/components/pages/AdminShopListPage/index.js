@@ -64,29 +64,6 @@ const styleSheet = createStyleSheet('Name', (theme) => {
   }
 })
 
-const Name = (props, context) => {
-  const classes = context.styleManager.render(styleSheet)
-  const { listItem } = props
-
-  return (
-    <span className={classes.name}>
-      {listItem.ancestors.map(ancestor => {
-        return <span key={ancestor._id} className={classes.ancestor}><span>{ancestor.name}</span></span>
-      })}
-      {listItem.name}
-    </span>
-  )
-}
-
-Name.propTypes = {
-  listItem: PropTypes.object.isRequired,
-}
-
-Name.contextTypes = {
-  styleManager: customPropTypes.muiRequired,
-  theme: customPropTypes.muiRequired,
-}
-
 const actionsStyleSheet = createStyleSheet('Actions', (theme) => {
   return {
     actions: {
@@ -104,22 +81,22 @@ const Actions = (props, context) => {
 
   return (
     <div className={classes.actions}>
-      <IconButton component={Link} to={`/admin/categories/edit/${listItem._id}`}><ModeEditIcon /></IconButton>
+      <IconButton component={Link} to={`/admin/shops/edit/${listItem._id}`}><ModeEditIcon /></IconButton>
       <IconButton><DotsVertIcon /></IconButton>
     </div>
   )
 }
 
-// Actions.propTypes = {
-//   listItem: PropTypes.object.isRequired,
-// }
+Actions.propTypes = {
+  listItem: PropTypes.object.isRequired,
+}
 
 Actions.contextTypes = {
   styleManager: customPropTypes.muiRequired,
   theme: customPropTypes.muiRequired,
 }
 
-const AdminCategoryListPage = (props) => {
+const AdminShopListPage = (props) => {
   const { list, count, getList, title } = props
 
   const columnData = [
@@ -136,7 +113,6 @@ const AdminCategoryListPage = (props) => {
 
     data.push({
       ...listItem,
-      name: <Name listItem={listItem} name={name} />,
       created: dateFormat(date, 'hh:MM TT mm/dd/yyyy'),
       actions: <Actions listItem={listItem} />,
     })
@@ -151,16 +127,16 @@ const AdminCategoryListPage = (props) => {
   )
 }
 
-AdminCategoryListPage.propTypes = {
+AdminShopListPage.propTypes = {
   title: PropTypes.string.isRequired,
   count: PropTypes.number,
   getList: PropTypes.func.isRequired,
   list: PropTypes.array,
 }
 
-AdminCategoryListPage.contextTypes = {
+AdminShopListPage.contextTypes = {
   styleManager: customPropTypes.muiRequired,
   theme: customPropTypes.muiRequired,
 }
 
-export default AdminCategoryListPage
+export default AdminShopListPage

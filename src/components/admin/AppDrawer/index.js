@@ -122,7 +122,7 @@ const AppDrawer = (props, context) => {
             <ListItemIcon className={classes.listItemIcon}><IconCategories /></ListItemIcon>
             <ListItemText primary="Categories" />
           </ListItem>
-          <ListItem to="/admin/shop" component={Link} className={classes.listItem} activeClassName="active" button>
+          <ListItem to="/admin/shops" component={Link} className={classes.listItem} activeClassName="active" button>
             <ListItemIcon className={classes.listItemIcon}><IconShops /></ListItemIcon>
             <ListItemText primary="Shops" />
           </ListItem>
