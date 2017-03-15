@@ -2,16 +2,17 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import { fromEntities, fromShop } from 'store/selectors'
-import { shopList } from 'store/actions'
+import { shopListReadRequest } from 'store/actions'
 import { AdminShopListPage } from 'components'
 
 class AdminShopListPageContainer extends Component {
+
   static get({ store, location: { query } }) {
     const params = { ...query }
     if (!params._limit) params._limit = 15
 
     return new Promise((resolve, reject) => {
-      store.dispatch(shopList.request(params, resolve, reject))
+      store.dispatch(shopListReadRequest(params, resolve, reject))
     })
   }
 

@@ -1,16 +1,21 @@
 import findIndex from 'lodash/findIndex'
 import { initialState } from './selectors'
 import {
-  SHOP_LIST_SUCCESS,
   SHOP_CREATE_SUCCESS,
-  SHOP_READ_SUCCESS,
+  SHOP_LIST_READ_REQUEST,
+  SHOP_LIST_READ_SUCCESS,
+  SHOP_DETAIL_READ_REQUEST,
+  SHOP_DETAIL_READ_SUCCESS,
   SHOP_UPDATE_SUCCESS,
   SHOP_DELETE_SUCCESS,
 } from './actions'
 
-const findReducer = (state, action) => {
-  const isObject = typeof action.data === 'object'
-  const index = isObject ? findIndex(state.list, action.data) : state.list.indexOf(action.data)
+
+const updateOrDeleteReducer = (state, action) => {
+  const needleIsObject = typeof action.needle === 'object'
+  const index = needleIsObject
+    ? findIndex(state.list, action.needle)
+    : state.list.indexOf(action.needle)
 
   if (index < 0) {
     return state
@@ -22,9 +27,9 @@ const findReducer = (state, action) => {
         ...state,
         list: [
           ...state.list.slice(0, index),
-          typeof action.data === 'object'
-          ? { ...state.list[index], ...action.newData }
-          : action.newData,
+          typeof action.needle === 'object'
+            ? { ...state.list[index], ...action.detail }
+            : action.detail,
           ...state.list.slice(index + 1),
         ],
       }
@@ -32,7 +37,6 @@ const findReducer = (state, action) => {
       return {
         ...state,
         list: [...state.list.slice(0, index), ...state.list.slice(index + 1)],
-        count: state.count - 1,
       }
     // istanbul ignore next
     default:
@@ -42,26 +46,28 @@ const findReducer = (state, action) => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SHOP_LIST_SUCCESS:
-      return {
-        ...state,
-        list: action.list,
-        count: action.count,
-      }
     case SHOP_CREATE_SUCCESS:
       return {
         ...state,
-        list: [action.data, ...state.list],
-        count: state.count + 1,
+        list: [action.detail, ...state.list],
       }
-    case SHOP_READ_SUCCESS:
+
+    case SHOP_LIST_READ_SUCCESS:
       return {
         ...state,
-        data: action.data,
+        list: action.list,
       }
+
+    case SHOP_DETAIL_READ_SUCCESS:
+      return {
+        ...state,
+        detail: action.detail,
+      }
+
     case SHOP_UPDATE_SUCCESS:
     case SHOP_DELETE_SUCCESS:
-      return findReducer(state, action)
+      return updateOrDeleteReducer(state, action)
+
     default:
       return state
   }

@@ -1,77 +1,91 @@
 import { take, put, call, fork } from 'redux-saga/effects'
 import api from 'services/api'
-import {
-  shopList, shopCreate, shopRead, shopUpdate,
-  SHOP_LIST_REQUEST, SHOP_CREATE_REQUEST, SHOP_READ_REQUEST, SHOP_UPDATE_REQUEST,
-} from './actions'
+import * as actions from './actions'
 
 export function* createShop(newData) {
   try {
-    const { data } = yield call(api.post, '/shops', newData)
-    yield put(shopCreate.success(data))
+    const data = yield call(api.post, '/shops', newData)
+    yield put(actions.shopCreateSuccess(data))
   } catch (e) {
-    yield put(shopCreate.failure(e))
+    yield put(actions.shopCreateFailure(e))
   }
 }
 
-export function* readShop(id) {
-  try {
-    const { data } = yield call(api.get, `/shops/${id}`)
-    yield put(shopRead.success(data))
-  } catch (e) {
-    yield put(shopRead.failure(e))
-  }
-}
-
-export function* updateShop(oldData, newData) {
-  try {
-    const { data } = yield call(api.put, `/shops/${oldData._id}`, newData)
-    yield put(shopUpdate.success(data, newData))
-  } catch (e) {
-    yield put(shopUpdate.failure(e))
-  }
-}
-
-export function* listShops(params) {
+export function* readShopList(params) {
   try {
     const { data, headers } = yield call(api.get, '/shops', { params })
-    yield put(shopList.success(data, parseInt(headers.get('x-total-count'), 10)))
+    yield put(actions.shopListReadSuccess(data, parseInt(headers.get('x-total-count'), 10)))
   } catch (e) {
-    yield put(shopList.failure(e))
+    yield put(actions.shopListReadFailure(e))
+  }
+}
+
+export function* readShopDetail(needle) {
+  try {
+    const data = yield call(api.get, `/shops/${needle}`)
+    yield put(actions.shopDetailReadSuccess(needle, data))
+  } catch (e) {
+    yield put(actions.shopDetailReadFailure(needle, e))
+  }
+}
+
+export function* updateShop(needle, newData) {
+  try {
+    const data = yield call(api.put, `/shops/${needle}`, newData)
+    yield put(actions.shopUpdateSuccess(needle, data))
+  } catch (e) {
+    yield put(actions.shopUpdateFailure(needle, e))
+  }
+}
+
+export function* deleteShop(needle) {
+  try {
+    yield call(api.delete, `/shops/${needle}`)
+    yield put(actions.shopDeleteSuccess(needle))
+  } catch (e) {
+    yield put(actions.shopDeleteFailure(needle, e))
   }
 }
 
 export function* watchShopCreateRequest() {
   while (true) {
-    const { data } = yield take(SHOP_CREATE_REQUEST)
+    const { data } = yield take(actions.SHOP_CREATE_REQUEST)
     yield call(createShop, data)
   }
 }
 
-export function* watchShopReadRequest() {
+export function* watchShopListReadRequest() {
   while (true) {
-    const { id } = yield take(SHOP_READ_REQUEST)
-    yield call(readShop, id)
+    const { params } = yield take(actions.SHOP_LIST_READ_REQUEST)
+    yield call(readShopList, params)
+  }
+}
+
+export function* watchShopDetailReadRequest() {
+  while (true) {
+    const { needle } = yield take(actions.SHOP_DETAIL_READ_REQUEST)
+    yield call(readShopDetail, needle)
   }
 }
 
 export function* watchShopUpdateRequest() {
   while (true) {
-    const { data, newData } = yield take(SHOP_UPDATE_REQUEST)
-    yield call(updateShop, data, newData)
+    const { needle, data } = yield take(actions.SHOP_UPDATE_REQUEST)
+    yield call(updateShop, needle, data)
   }
 }
 
-export function* watchShopListRequest() {
+export function* watchShopDeleteRequest() {
   while (true) {
-    const { params } = yield take(SHOP_LIST_REQUEST)
-    yield call(listShops, params)
+    const { needle } = yield take(actions.SHOP_DELETE_REQUEST)
+    yield call(deleteShop, needle)
   }
 }
 
 export default function* () {
   yield fork(watchShopCreateRequest)
-  yield fork(watchShopReadRequest)
+  yield fork(watchShopListReadRequest)
+  yield fork(watchShopDetailReadRequest)
   yield fork(watchShopUpdateRequest)
-  yield fork(watchShopListRequest)
+  yield fork(watchShopDeleteRequest)
 }
