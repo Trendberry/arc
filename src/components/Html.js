@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react'
 import Helmet from 'react-helmet'
 
-const Html = ({ styles, assets, state, content }) => {
+const Html = ({ styles, assets, state, content, publicPath }) => {
   const helmet = Helmet.rewind()
   const attrs = helmet.htmlAttributes.toComponent()
 
@@ -21,8 +21,8 @@ const Html = ({ styles, assets, state, content }) => {
       <body>
         <main id="app" dangerouslySetInnerHTML={{ __html: content }} />
         <script dangerouslySetInnerHTML={{ __html: state }} />
-        {Object.keys(assets.javascript).reverse().map((key) =>
-          <script key={key} src={assets.javascript[key]} />
+        {Object.keys(assets).reverse().map((key) =>
+          <script key={key} src={publicPath + assets[key]} />
         )}
       </body>
     </html>

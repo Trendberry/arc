@@ -1,6 +1,5 @@
 import React from 'react'
-import Route from 'react-router/lib/Route'
-import IndexRoute from 'react-router/lib/IndexRoute'
+import { Route, IndexRoute } from 'react-router'
 
 import App from 'components/App'
 import { HomePage } from 'components'
@@ -14,7 +13,7 @@ import {
   NotFoundPage
 } from 'containers'
 
-const getRoutes = (store) => {
+const routes = (store) => {
   const fetchData = (nextState, replace, callback) => {
     const Component = nextState.routes[nextState.routes.length - 1].component
     const canUseDOM = !!(
@@ -60,4 +59,4 @@ const getRoutes = (store) => {
   )
 }
 
-export default getRoutes
+export default routes

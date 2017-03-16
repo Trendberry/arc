@@ -1,18 +1,17 @@
 /* eslint-disable no-console */
+import 'babel-polyfill'
 import React from 'react'
 import serialize from 'serialize-javascript'
 import csrf from 'csurf'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import { Provider } from 'react-redux'
-import createMemoryHistory from 'react-router/lib/createMemoryHistory'
-import match from 'react-router/lib/match'
-import RouterContext from 'react-router/lib/RouterContext'
+import { createMemoryHistory, RouterContext, match } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Router } from 'express'
 import express from 'services/express'
-import getRoutes from 'routes'
+import routes from 'routes'
 import configureStore from 'store/configure'
-import { env, port, ip, basename } from 'config'
+import { port, ip, basename } from 'config'
 import { setCsrfToken } from 'store/actions'
 import Html from 'components/Html'
 
@@ -23,10 +22,6 @@ const router = new Router()
 router.use(csrf({ cookie: true }))
 
 router.use((req, res, next) => {
-  if (env === 'development') {
-    global.webpackIsomorphicTools.refresh()
-  }
-
   const location = req.url.replace(basename, '')
   const memoryHistory = createMemoryHistory({ basename })
   const store = configureStore({}, memoryHistory)
@@ -34,9 +29,7 @@ router.use((req, res, next) => {
 
   store.dispatch(setCsrfToken(req.csrfToken()))
 
-  const routes = getRoutes(store)
-
-  match({ history, routes, location }, (error, redirectLocation, renderProps) => {
+  match({ history, routes: routes(store), location }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search)
     }
@@ -74,11 +67,12 @@ router.use((req, res, next) => {
         </MuiThemeProvider>
       )
 
-      const styles = styleManager.sheetsToString() // .replace(/[\n|\s]+/g, ' ') //styleSheet.rules().map(rule => rule.cssText).join('\n')
+      const styles = styleManager.sheetsToString() // .replace(/[\n|\s]+/g, ' ')
       const initialState = store.getState()
-      const assets = global.webpackIsomorphicTools.assets()
+      const assets = global.stats.assetsByChunkName
+      const publicPath = global.stats.publicPath
       const state = `window.__INITIAL_STATE__ = ${serialize(initialState)}`
-      const markup = <Html {...{ styles, assets, state, content }} />
+      const markup = <Html {...{ styles, assets, state, content, publicPath }} />
       const doctype = '<!doctype html>\n'
       const html = renderToStaticMarkup(markup)
 
@@ -100,7 +94,7 @@ app.listen(port, (error) => {
   if (error) {
     console.error(error)
   } else {
-    console.info(`Listening on http://${ip}:${port}`)
+    console.info(`local: http://${ip}:${port}`)
   }
 })
 
