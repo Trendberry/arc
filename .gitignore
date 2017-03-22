@@ -1,7 +1,7 @@
 .DS_Store
+.happypack
 dist
-yarn-error.log
-npm-debug.log
+*.log
 node_modules
 coverage
 webpack/webpack-assets.json
