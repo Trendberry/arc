@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+// const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const { ip, port, isDev, publicPath } = require('./env')
 
 const config = {
@@ -18,7 +18,7 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.PUBLIC_PATH': JSON.stringify(publicPath),
     }),
-    new ProgressBarPlugin(),
+    // new ProgressBarPlugin(),
   ],
   module: {
     rules: [
