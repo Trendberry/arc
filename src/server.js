@@ -14,8 +14,7 @@ import configureStore from 'store/configure'
 import { port, ip, basename } from 'config'
 import { setCsrfToken } from 'store/actions'
 import Html from 'components/Html'
-
-import { MuiThemeProvider, styleManager, theme } from 'mui'
+import { styleManager } from 'mui'
 
 const router = new Router()
 
@@ -60,14 +59,12 @@ router.use((req, res, next) => {
 
     const render = (store) => {
       const content = renderToString(
-        <MuiThemeProvider styleManager={styleManager} theme={theme}>
-          <Provider store={store}>
-            <RouterContext {...renderProps} />
-          </Provider>
-        </MuiThemeProvider>
+        <Provider store={store}>
+          <RouterContext {...renderProps} />
+        </Provider>
       )
 
-      const styles = styleManager.sheetsToString() // .replace(/[\n|\s]+/g, ' ')
+      const styles = styleManager.sheetsToString()
       const initialState = store.getState()
       const assets = global.assets
       const state = `window.__INITIAL_STATE__ = ${serialize(initialState)}`

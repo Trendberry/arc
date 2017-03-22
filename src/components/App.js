@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import Helmet from 'react-helmet'
+import { MuiThemeProvider, styleManager, theme } from 'mui'
 
 class App extends Component {
 
   static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]),
+    children: PropTypes.any,
   }
 
   componentDidMount() {
@@ -23,28 +21,24 @@ class App extends Component {
     return (
       <div>
         <Helmet
-          title="Atomic React"
-          titleTemplate="ARc - %s"
+          title="Trendberry"
+          titleTemplate="Trendberry | %s"
           meta={[
-            { name: 'description', content: 'React starter kit based on Atomic Design with React Router v4, Webpack, Redux, Server Side Rendering and more.' },
+            { name: 'description', content: 'Shops catalog' },
             { property: 'og:site_name', content: 'ARc' },
-            { property: 'og:image', content: 'thumbnail.png' },
+            { property: 'og:image', content: '/thumbnail.png' },
             { property: 'og:image:type', content: 'image/png' },
             { property: 'og:image:width', content: '1200' },
             { property: 'og:image:height', content: '630' },
           ]}
           link={[
-            { rel: 'icon', href: 'icon.png' },
+            { rel: 'icon', href: '/icon.png' },
           ]}
         />
-        {children}
+        <MuiThemeProvider styleManager={styleManager} theme={theme}>{children}</MuiThemeProvider>
       </div>
     )
   }
-}
-
-App.propTypes = {
-  children: PropTypes.any,
 }
 
 export default App
