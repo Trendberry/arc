@@ -124,7 +124,7 @@ class DraftRichEditor extends Component {
     let className = classes.editor
     var contentState = editorState.getCurrentContent()
     // var contentState = stateFromHTML('<div></div>')
-    var contentState = stateFromElement('<div></div>')
+    // var contentState = stateFromElement('<div></div>')
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
         className += ` ${classes.hidePlaceholder}`
