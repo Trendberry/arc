@@ -59,7 +59,7 @@ const startServer = () => () => ({
   plugins: [
     function start() {
       this.plugin('done', () => {
-        const promise = serverPid ? fkill(serverPid) : Promise.resolve()
+        const promise = serverPid ? fkill(serverPid, { force: true }) : Promise.resolve()
         promise.then(() => {
           const server = spawn('node', ['.'])
           serverPid = server.pid

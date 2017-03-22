@@ -1,11 +1,12 @@
-import 'babel-polyfill'
 import 'react-hot-loader/patch'
+import 'babel-polyfill'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createHistory } from 'history'
 import { match, Router, useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
+import { AppContainer } from 'react-hot-loader'
 import { basename } from 'config'
 import configureStore from 'store/configure'
 
@@ -42,7 +43,7 @@ renderApp()
 
 if (module.hot) {
   module.hot.accept('routes', () => {
+    // require('routes')(store)
     renderApp()
   })
 }
-
