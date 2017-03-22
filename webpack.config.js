@@ -44,7 +44,7 @@ const runServerConfig = (serverConfig, prod) => () => ({
         fs.writeFileSync(assetsPath, JSON.stringify(assets))
         if (!watching) {
           const serverCompiler = webpack(serverConfig)
-          serverCompiler[prod ? 'run' : 'watch'](null, () => {
+          prod ? serverCompiler['run'] : serverCompiler['watch'](null, () => {
             console.log('watching')
           })
           watching = true
