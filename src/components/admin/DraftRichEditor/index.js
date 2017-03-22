@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Editor, EditorState, RichUtils, Modifier } from 'draft-js'
 import { getSelectedBlocksMetadata, setBlockData } from 'draftjs-utils'
 import { stateToHTML } from 'draft-js-export-html'
+// import { stateFromHTML } from 'draft-js-import-html'
+// import { stateFromElement } from 'draft-js-import-element'
 
 import { createStyleSheet } from 'jss-theme-reactor'
 import customPropTypes from 'material-ui/utils/customPropTypes'
@@ -121,6 +123,8 @@ class DraftRichEditor extends Component {
     // either style the placeholder or hide it. Let's just hide it now.
     let className = classes.editor
     var contentState = editorState.getCurrentContent()
+    // var contentState = stateFromHTML('<div></div>')
+    var contentState = stateFromElement('<div></div>')
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
         className += ` ${classes.hidePlaceholder}`

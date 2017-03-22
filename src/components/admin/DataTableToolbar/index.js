@@ -5,7 +5,6 @@ import customPropTypes from 'material-ui/utils/customPropTypes'
 import IconButton from 'material-ui/IconButton'
 import Text from 'material-ui/Text'
 import Toolbar from 'material-ui/Toolbar'
-import SvgIcon from 'material-ui/SvgIcon'
 
 import { SearchWidget } from 'containers'
 

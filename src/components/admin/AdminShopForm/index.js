@@ -113,6 +113,12 @@ const AdminShopForm = (props, context) => {
               <div className={classes.fieldRow}>
                 <Field name="description" label="Description" component={renderTextAreaField} />
               </div>
+              <div className={classes.fieldRow}>
+                <Field name="lastUpdate" label="Last Update" component={renderTextField} />
+              </div>
+              <div className={classes.fieldRow}>
+                <Field name="feedUrl" label="Feed URL" component={renderTextField} />
+              </div>
             </Layout>
             <Layout item sm={4}>
               <div className={classes.fieldRow}>

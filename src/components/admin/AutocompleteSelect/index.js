@@ -8,13 +8,7 @@ import InputLabel from 'material-ui/Input/InputLabel'
 import Menu from 'material-ui/Menu/Menu'
 import MenuItem from 'material-ui/Menu/MenuItem'
 import MenuList from 'material-ui/Menu/MenuList'
-import SvgIcon from 'material-ui/SvgIcon'
-
-const IconMenuDown = (props) => (
-  <SvgIcon {...props}>
-    <path d="M7,10L12,15L17,10H7Z" />
-  </SvgIcon>
-)
+import IconArrowDropDown from 'material-ui-icons/ArrowDropDown'
 
 const styleSheetCustomInput = createStyleSheet('CustomInput', (theme) => {
   return {
@@ -42,7 +36,7 @@ const CustomInput = (props, context) => {
     <div className={classes.root}>
       <input {...props} className={classNames(props.className, classes.input)} />
       <input {...props} type="hidden" />
-      <IconMenuDown className={classes.icon} />
+      <IconArrowDropDown className={classes.icon} />
     </div>
   )
 }
