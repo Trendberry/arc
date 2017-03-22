@@ -69,10 +69,9 @@ router.use((req, res, next) => {
 
       const styles = styleManager.sheetsToString() // .replace(/[\n|\s]+/g, ' ')
       const initialState = store.getState()
-      const assets = global.stats.assetsByChunkName
-      const publicPath = global.stats.publicPath
+      const assets = global.assets
       const state = `window.__INITIAL_STATE__ = ${serialize(initialState)}`
-      const markup = <Html {...{ styles, assets, state, content, publicPath }} />
+      const markup = <Html {...{ styles, assets, state, content }} />
       const doctype = '<!doctype html>\n'
       const html = renderToStaticMarkup(markup)
 
