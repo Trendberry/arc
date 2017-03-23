@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import 'babel-polyfill'
 import React from 'react'
 import serialize from 'serialize-javascript'
 import csrf from 'csurf'
@@ -11,7 +10,7 @@ import { Router } from 'express'
 import express from 'services/express'
 import routes from 'routes'
 import configureStore from 'store/configure'
-import { port, ip, basename } from 'config'
+import { env, port, ip, basename } from 'config'
 import { setCsrfToken } from 'store/actions'
 import Html from 'components/Html'
 import { styleManager } from 'mui'
@@ -21,6 +20,10 @@ const router = new Router()
 router.use(csrf({ cookie: true }))
 
 router.use((req, res, next) => {
+  if (env === 'development') {
+    global.webpackIsomorphicTools.refresh()
+  }
+
   const location = req.url.replace(basename, '')
   const memoryHistory = createMemoryHistory({ basename })
   const store = configureStore({}, memoryHistory)
