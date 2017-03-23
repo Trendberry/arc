@@ -48,6 +48,7 @@ const styleSheet = createStyleSheet('AdminPageTemplate', (theme) => {
         opacity: 0,
         transition: 'all .275s .275s cubic-bezier(0.0, 0.0, 0.2, 1)',
         transform: 'translateY(100px)',
+        pointerEvents: 'none',
       },
       '.enter.enter-active': {
         opacity: 1,

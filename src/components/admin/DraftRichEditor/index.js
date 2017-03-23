@@ -82,7 +82,7 @@ class DraftRichEditor extends Component {
   }
 
   _handleKeyCommand(command) {
-    const {editorState} = this.state
+    const { editorState } = this.state
     const newState = RichUtils.handleKeyCommand(editorState, command)
     if (newState) {
       this.onChange(newState)
@@ -152,7 +152,7 @@ class DraftRichEditor extends Component {
             editorState={editorState}
             onChange={this.onChange}
           />
-          <div className={classes.divider}/>
+          <div className={classes.divider} />
           <BlockStyleControls
             blockTypes={LIST_BLOCK_TYPES}
             editorState={editorState}
@@ -323,7 +323,7 @@ class ToggleButton extends React.Component {
 
     return (
       <IconButton className={className} onMouseDown={this.onToggle}>
-        { this.props.icon ? <Icon /> : this.props.label}
+        {this.props.icon ? <Icon /> : this.props.label}
       </IconButton>
     )
   }
@@ -510,7 +510,7 @@ var ALIGN_STYLES = [
   { label: 'Justify', style: 'justify', icon: IconAlignJustify },
 ]
 
-class  AlignStyleControls extends React.Component {
+class AlignStyleControls extends React.Component {
   state = {
     currentTextAlignment: undefined,
   }
@@ -551,9 +551,5 @@ class  AlignStyleControls extends React.Component {
     )
   }
 }
-
-
-
-
 
 export default DraftRichEditor

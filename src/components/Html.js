@@ -13,6 +13,8 @@ const Html = ({ styles, assets, state, content }) => {
         {helmet.meta.toComponent()}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {helmet.link.toComponent()}
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet" />
+        <link href="https://draftjs.org/lib/Draft.css" rel="stylesheet" />
         <style dangerouslySetInnerHTML={{ __html: styles }} />
       </head>
       <body>

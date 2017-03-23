@@ -7,6 +7,7 @@ import { createHistory } from 'history'
 import { match, Router, useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { basename } from 'config'
+import ReactHotLoader from './components/ReactHotLoader'
 import configureStore from 'store/configure'
 
 import routes from 'routes'
@@ -17,13 +18,6 @@ const baseHistory = useRouterHistory(createHistory)({ basename })
 const store = configureStore(initialState, baseHistory)
 const history = syncHistoryWithStore(baseHistory, store)
 const root = document.getElementById('app')
-
-// We create this wrapper so that we only import react-hot-loader for a
-// development build.  Small savings. :)
-const ReactHotLoader =
-  process.env.NODE_ENV === 'development'
-  ? AppContainer
-  : ({ children }) => React.Children.only(children)
 
 const renderApp = () => {
   match({ history, routes: routes(store) }, (error, redirectLocation, renderProps) => {

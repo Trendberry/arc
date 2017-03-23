@@ -6,7 +6,7 @@ import { AdminShopForm } from 'containers'
 const AdminShopCreatePage = () => {
   return (
     <div>
-      <Helmet title="Category Create Page" />
+      <Helmet title="Create Shop" />
       <AdminShopForm />
     </div>
   )

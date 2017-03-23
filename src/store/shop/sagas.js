@@ -22,7 +22,7 @@ export function* readShopList(params) {
 
 export function* readShopDetail(needle) {
   try {
-    const data = yield call(api.get, `/shops/${needle}`)
+    const { data } = yield call(api.get, `/shops/${needle}`)
     yield put(actions.shopDetailReadSuccess(needle, data))
   } catch (e) {
     yield put(actions.shopDetailReadFailure(needle, e))

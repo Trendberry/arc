@@ -107,9 +107,9 @@ const AdminShopForm = (props, context) => {
               <div className={classes.fieldRow}>
                 <Field name="name" label="Name" component={renderTextField} />
               </div>
-              <div className={classes.fieldRow}>
+              {/*<div className={classes.fieldRow}>
                 <DraftRichEditor />
-              </div>
+              </div>*/}
               <div className={classes.fieldRow}>
                 <Field name="description" label="Description" component={renderTextAreaField} />
               </div>

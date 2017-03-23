@@ -9,6 +9,7 @@ import {
   AdminCategoryCreatePage,
   AdminCategoryUpdatePage,
   AdminShopCreatePage,
+  AdminShopUpdatePage,
   AdminShopListPage,
   NotFoundPage
 } from 'containers'
@@ -49,7 +50,7 @@ const routes = (store) => {
         <Route path="shops">
           <IndexRoute component={AdminShopListPage} onEnter={fetchData} />
           <Route path="create" component={AdminShopCreatePage} />
-          {/*<Route path=":id/update" component={AdminCategoryUpdatePage} />*/}
+          <Route path=":id/update" component={AdminShopUpdatePage} />
         </Route>
 
         <Route path="*" component={NotFoundPage} />

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { fromForm, fromEntities } from 'store/selectors'
-import { shopCreateRequest, shopReadRequest, shopUpdateRequest } from 'store/actions'
+import { shopCreateRequest, shopDetailReadRequest, shopUpdateRequest } from 'store/actions'
 import { createValidator, required } from 'services/validation'
 
 import { AdminShopForm } from 'components'
@@ -12,7 +12,6 @@ import { AdminShopForm } from 'components'
 class AdminShopFormContainer extends Component {
   static propTypes = {
     id: PropTypes.any,
-    request: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -23,12 +22,6 @@ class AdminShopFormContainer extends Component {
     anchorEl: undefined,
     open: false,
     selectedIndex: 0,
-  }
-
-  componentWillMount() {
-    if (this.props.id) {
-      this.props.request()
-    }
   }
 
   render() {
@@ -42,9 +35,10 @@ class AdminShopFormContainer extends Component {
 
 const onSubmit = (data, dispatch, state) => new Promise((resolve, reject) => {
   if (data._id) {
-    return dispatch(shopUpdateRequest(state.initialValues, data, resolve, reject))
+    dispatch(shopUpdateRequest(data._id, data, resolve, reject))
+  } else {
+    dispatch(shopCreateRequest(data, resolve, reject))
   }
-  dispatch(shopCreateRequest(data, resolve, reject))
 })
 
 const validate = createValidator({
@@ -68,17 +62,13 @@ const mapStateToProps = (state, { id }) => {
   })
 }
 
-const mapDispatchToProps = (dispatch, { id }) => ({
-  request: () => dispatch(shopReadRequest(id)),
-})
-
 export const config = {
   form: 'AdminShopForm',
   fields: ['name', 'description'],
-  // enableReinitialize: true,
+  enableReinitialize: true,
   destroyOnUnmount: true,
   onSubmit,
   validate,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm(config)(AdminShopFormContainer))
+export default connect(mapStateToProps)(reduxForm(config)(AdminShopFormContainer))
