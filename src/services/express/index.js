@@ -14,11 +14,11 @@ export default (routes) => {
 
   /* istanbul ignore next */
   if (env === 'production') {
-    // app.set('forceSSLOptions', {
-    //   enable301Redirects: true,
-    //   trustXFPHeader: true,
-    // })
-    // app.use(forceSSL)
+    app.set('forceSSLOptions', {
+      enable301Redirects: true,
+      trustXFPHeader: true,
+    })
+    app.use(forceSSL)
   }
 
   /* istanbul ignore next */
@@ -26,7 +26,7 @@ export default (routes) => {
     app.use(compression())
     app.use(morgan('dev'))
     app.use(cookieParser())
-    app.use(express.static(path.join(root, env === 'development' ? 'public' : 'dist/public')))
+    app.use(express.static(path.join(root, env === 'development' ? 'public' : 'dist')))
   }
 
   app.use(bodyParser.urlencoded({ extended: false }))
