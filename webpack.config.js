@@ -46,7 +46,8 @@ const runServerConfig = (serverConfig, prod) => () => ({
           const serverCompiler = webpack(serverConfig)
           if(prod) {
             serverCompiler['run']((error, stats) => {
-              console.log(error || 'done')
+              console.log(error || '')
+              process.exit()
             })
           } else {
             serverCompiler['watch'](null, () => {
