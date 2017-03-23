@@ -66,7 +66,7 @@ router.use((req, res, next) => {
 
       const styles = styleManager.sheetsToString()
       const initialState = store.getState()
-      const assets = global.assets
+      const assets = global.webpackIsomorphicTools.assets()
       const state = `window.__INITIAL_STATE__ = ${serialize(initialState)}`
       const markup = <Html {...{ styles, assets, state, content }} />
       const doctype = '<!doctype html>\n'
