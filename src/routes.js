@@ -8,6 +8,7 @@ import {
   AdminCategoryListPage,
   AdminCategoryCreatePage,
   AdminCategoryUpdatePage,
+  AdminLoginPage,
   AdminShopCreatePage,
   AdminShopUpdatePage,
   AdminShopListPage,
@@ -38,8 +39,11 @@ const routes = (store) => {
     <Route path="/" component={App}>
       <IndexRoute component={HomePage} />
 
+      <Route path="/admin/login" component={AdminLoginPage} />
+
       <Route path="/admin" component={AdminPageTemplate}>
         <IndexRoute component={HomePage} />
+
 
         <Route path="categories">
           <IndexRoute component={AdminCategoryListPage} onEnter={fetchData} />

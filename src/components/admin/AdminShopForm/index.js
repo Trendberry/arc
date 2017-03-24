@@ -28,7 +28,7 @@ const toolbarStyleSheet = createStyleSheet('Toolbar', (theme) => {
   }
 })
 
-const styleSheet = createStyleSheet('Layout', () => {
+const styleSheet = createStyleSheet('AdminShopForm', () => {
   return {
     root: {
       margin: 0,
@@ -103,7 +103,7 @@ const AdminShopForm = (props, context) => {
           <Field name="_csrf" type="hidden" component="input" />
 
           <Layout container gutter={24} className={classes.root}>
-            <Layout item sm={8}>
+            <Layout item xs={12} md={8}>
               <div className={classes.fieldRow}>
                 <Field name="name" label="Name" component={renderTextField} />
               </div>
@@ -120,7 +120,7 @@ const AdminShopForm = (props, context) => {
                 <Field name="feedUrl" label="Feed URL" component={renderTextField} />
               </div>
             </Layout>
-            <Layout item sm={4}>
+            <Layout item xs={12} md={4}>
               <div className={classes.fieldRow}>
                 <Field name="slug" label="Slug" component={renderTextField} />
               </div>

@@ -96,7 +96,7 @@ const Actions = (props, context) => {
 
   return (
     <div className={classes.actions}>
-      <IconButton component={Link} to={`/admin/categories/edit/${listItem._id}`}><ModeEditIcon /></IconButton>
+      <IconButton component={Link} to={`/admin/categories/${listItem._id}/update`}><ModeEditIcon /></IconButton>
       <IconButton><IconMoreVert /></IconButton>
     </div>
   )

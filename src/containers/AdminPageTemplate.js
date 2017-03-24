@@ -25,7 +25,7 @@ class AdminPageTemplateContainer extends Component {
   }
 
   state = {
-    drawerOpen: true,
+    drawerOpen: false,
     title: 'Trendberry',
   }
 
@@ -85,22 +85,23 @@ class AdminPageTemplateContainer extends Component {
     !this.props.loading &&
     NProgress.done()
 
-    // console.log('render')
     const {
       children,
-      // width,
+      width,
       location,
     } = this.props
 
-    // let drawerDocked = isWidthUp('lg', width)
-    const drawerDocked = true
+    const widths = width || 'lg'
+
+    let drawerDocked = isWidthUp('lg', widths)
+
     return (
       <AdminPageTemplate
         handleDrawerToggle={this.handleDrawerToggle}
         handleToggleShade={this.handleToggleShade}
         handleDrawerClose={this.handleDrawerClose}
         drawerDocked={drawerDocked}
-        drawerOpen={this.state.drawerOpen}
+        drawerOpen={drawerDocked || this.state.drawerOpen}
         location={location}
         title={this.state.title}
       >
@@ -115,6 +116,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-  // withWidth(),
+  withWidth(),
   connect(mapStateToProps),
 )(AdminPageTemplateContainer)

@@ -5,6 +5,7 @@ import customPropTypes from 'material-ui/utils/customPropTypes'
 import IconButton from 'material-ui/IconButton'
 import Text from 'material-ui/Text'
 import Toolbar from 'material-ui/Toolbar'
+import IconDelete from 'material-ui-icons/Delete'
 
 import { SearchWidget } from 'containers'
 
@@ -55,7 +56,9 @@ const DataTableToolbar = (props, context) => {
       <div className={classes.spacer} />
       {numSelected > 0 ? (
         <div className={classes.actions}>
-          <IconButton>delete</IconButton>
+          <IconButton>
+            <IconDelete />
+          </IconButton>
         </div>
       ) : (
         <div className={classes.actions}>
